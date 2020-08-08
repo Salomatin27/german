@@ -30,4 +30,25 @@ return [
             'ajax_only'  => true,
         ],
     ],
+    'doctrine' => [
+        // *** for developer server
+        'connection' => [
+            'orm_default' => [
+                'driver_class' => \Doctrine\DBAL\Driver\PDOMySql\Driver::class,
+                'params' => [
+                    'host'     => '91.239.234.17',
+                    'port'     => '3306',
+                    'user'     => 'medicine_german',
+                    'password' => 'socket27_german',
+                    'dbname'   => 'medicine_german',
+                    'driverOptions' => [
+                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                    ],
+                ],
+            ],
+        ],
+        // *** end for developer server
+    ],
+
+
 ];
