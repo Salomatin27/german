@@ -39,11 +39,13 @@
     },
     "require": {
         "php": "^7.1",
+        "ext-pdo": "*",
         "doctrine/doctrine-module": "^4.0",
         "doctrine/event-manager": "1.1.1",
         "laminas/laminas-component-installer": "^2.1.2",
         "laminas/laminas-config-aggregator": "^1.2",
         "laminas/laminas-diactoros": "^2.3.0",
+        "laminas/laminas-permissions-rbac": "^3.0",
         "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.2.1",
         "laminas/laminas-zendframework-bridge": "^1.0",
@@ -51,8 +53,7 @@
         "mezzio/mezzio-fastroute": "^3.0.3",
         "mezzio/mezzio-helpers": "^5.3",
         "mezzio/mezzio-laminasviewrenderer": "^2.2",
-        "roave/psr-container-doctrine": "^2.2",
-        "ext-pdo": "*"
+        "roave/psr-container-doctrine": "^2.2"
     },
     "require-dev": {
         "laminas/laminas-development-mode": "^3.2",
