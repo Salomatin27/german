@@ -13,6 +13,7 @@ use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
 use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Session\SessionMiddleware;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -42,6 +43,10 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // - $app->pipe('/docs', $apiDocMiddleware);
     // - $app->pipe('/files', $filesMiddleware);
 
+    // Session
+    $app->pipe(SessionMiddleware::class);
+    // Flash messages
+    $app->pipe(\Mezzio\Flash\FlashMessageMiddleware::class);
     // Register the routing middleware in the middleware pipeline.
     // This middleware registers the Mezzio\Router\RouteResult request attribute.
     $app->pipe(RouteMiddleware::class);
@@ -65,6 +70,13 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // - route-based authentication
     // - route-based validation
     // - etc.
+
+    // authentication
+    $app->pipe(\App\Middleware\UserMiddleware::class);
+    // navigation
+    //$app->pipe(App\Middleware\NavigationMiddleware::class);
+    // authorization
+    $app->pipe(\Mezzio\Authorization\AuthorizationMiddleware::class);
 
     // Register the dispatch middleware in the middleware pipeline
     $app->pipe(DispatchMiddleware::class);

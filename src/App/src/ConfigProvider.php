@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App;
 
 use App\Factory\AbstractHandlerFactory;
+use App\Helper\Flash;
+use App\Middleware\PrgMiddleware;
+use App\Middleware\StoreParametersMiddleware;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 /**
  * The configuration provider for the App module
@@ -24,6 +28,11 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            'view_helpers' => [
+                'invokables' => [
+                    'flash' => Flash::class,
+                ],
+            ],
         ];
     }
 
@@ -38,6 +47,8 @@ class ConfigProvider
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                PrgMiddleware::class => InvokableFactory::class,
+                StoreParametersMiddleware::class => InvokableFactory::class,
             ],
             'abstract_factories' => [
                 AbstractHandlerFactory::class,

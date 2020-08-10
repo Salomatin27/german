@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Handler\LoginPageHandler;
+use App\Middleware\PrgMiddleware;
 use Mezzio\Application;
+use Mezzio\Authentication\AuthenticationMiddleware;
+use Mezzio\Csrf\CsrfMiddleware;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
 
@@ -36,4 +40,20 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get('/', App\Handler\HomePageHandler::class, 'home');
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
     $app->get('/doctrine', \App\Handler\DoctrineHandler::class, 'doctrine.test');
+
+    $app->route(
+        '/login',
+        [
+            CsrfMiddleware::class,
+            PrgMiddleware::class,
+            LoginPageHandler::class,
+            AuthenticationMiddleware::class,
+        ],
+        [
+            'get',
+            'post',
+        ],
+        'login'
+    );
+    $app->get('/logout', \App\Handler\LogoutPageHandler::class, 'logout');
 };

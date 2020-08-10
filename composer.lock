@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc5fabaf779d9d6a6a08ad99e9944e87",
+    "content-hash": "ad362265922c9988378764b4a10cfcd6",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -75,6 +75,60 @@
             "homepage": "https://github.com/container-interop/container-interop",
             "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "dflydev/fig-cookies",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-fig-cookies.git",
+                "reference": "733af78ddad60aec96f7c4a1204619dd4d62afff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dflydev/dflydev-fig-cookies/zipball/733af78ddad60aec96f7c4a1204619dd4d62afff",
+                "reference": "733af78ddad60aec96f7c4a1204619dd4d62afff",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcre": "*",
+                "php": "^7.2",
+                "psr/http-message": "^1"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^4",
+                "phpstan/phpstan": "^0.10.1",
+                "phpunit/phpunit": "^7.2.6",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dflydev\\FigCookies\\": "src/Dflydev/FigCookies"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com"
+                }
+            ],
+            "description": "Cookies for PSR-7 HTTP Message Interface.",
+            "keywords": [
+                "cookies",
+                "psr-7",
+                "psr7"
+            ],
+            "time": "2020-01-02T16:13:22+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2404,6 +2458,131 @@
             "time": "2020-07-14T21:04:59+00:00"
         },
         {
+            "name": "laminas/laminas-i18n",
+            "version": "2.10.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-i18n.git",
+                "reference": "94ff957a1366f5be94f3d3a9b89b50386649e3ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-i18n/zipball/94ff957a1366f5be94f3d3a9b89b50386649e3ae",
+                "reference": "94ff957a1366f5be94f3d3a9b89b50386649e3ae",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "laminas/laminas-stdlib": "^2.7 || ^3.0",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "conflict": {
+                "phpspec/prophecy": "<1.9.0"
+            },
+            "replace": {
+                "zendframework/zend-i18n": "^2.10.1"
+            },
+            "require-dev": {
+                "laminas/laminas-cache": "^2.6.1",
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-config": "^2.6",
+                "laminas/laminas-eventmanager": "^2.6.2 || ^3.0",
+                "laminas/laminas-filter": "^2.6.1",
+                "laminas/laminas-servicemanager": "^2.7.5 || ^3.0.3",
+                "laminas/laminas-validator": "^2.6",
+                "laminas/laminas-view": "^2.6.3",
+                "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.16"
+            },
+            "suggest": {
+                "laminas/laminas-cache": "Laminas\\Cache component",
+                "laminas/laminas-config": "Laminas\\Config component",
+                "laminas/laminas-eventmanager": "You should install this package to use the events in the translator",
+                "laminas/laminas-filter": "You should install this package to use the provided filters",
+                "laminas/laminas-i18n-resources": "Translation resources",
+                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+                "laminas/laminas-validator": "You should install this package to use the provided validators",
+                "laminas/laminas-view": "You should install this package to use the provided view helpers"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.10.x-dev",
+                    "dev-develop": "2.11.x-dev"
+                },
+                "laminas": {
+                    "component": "Laminas\\I18n",
+                    "config-provider": "Laminas\\I18n\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\I18n\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Provide translations for your application, and filter and validate internationalized values",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "i18n",
+                "laminas"
+            ],
+            "time": "2020-03-29T12:51:08+00:00"
+        },
+        {
+            "name": "laminas/laminas-i18n-resources",
+            "version": "2.6.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:laminas/laminas-i18n-resources.git",
+                "reference": "7585cd3a4f9656814425b35689919a220c73834b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-i18n-resources/zipball/7585cd3a4f9656814425b35689919a220c73834b",
+                "reference": "7585cd3a4f9656814425b35689919a220c73834b",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "replace": {
+                "zendframework/zend-i18n-resources": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6.x-dev",
+                    "dev-develop": "2.7.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/Resources.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Provides validator translations for laminas-i18n's Translator",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "laminas",
+                "resources",
+                "translations"
+            ],
+            "time": "2019-12-31T17:11:35+00:00"
+        },
+        {
             "name": "laminas/laminas-inputfilter",
             "version": "2.10.1",
             "source": {
@@ -3481,6 +3660,389 @@
             "time": "2020-04-28T18:52:32+00:00"
         },
         {
+            "name": "mezzio/mezzio-authentication",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-authentication.git",
+                "reference": "1a8d9ded27530b6243cf9d295e3f1a57608d0abf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-authentication/zipball/1a8d9ded27530b6243cf9d295e3f1a57608d0abf",
+                "reference": "1a8d9ded27530b6243cf9d295e3f1a57608d0abf",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "conflict": {
+                "container-interop/container-interop": "<1.2.0"
+            },
+            "replace": {
+                "zendframework/zend-expressive-authentication": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^7.0.2"
+            },
+            "suggest": {
+                "ext-pdo": "*: for use with the PDO-backed UserRepositoryInterface implementation",
+                "mezzio/mezzio-authentication-basic": "Provides an HTTP Basic Authentication AuthenticationInterface implementation",
+                "mezzio/mezzio-authentication-laminasauthentication": "Provides a laminas-authentication AuthenticationInterface implementation",
+                "mezzio/mezzio-authentication-session": "Provides a username/password + session AuthenticationInterface implementation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev",
+                    "dev-develop": "1.2.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Authentication\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Authentication\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Authentication middleware for Mezzio and PSR-7 applications",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "Authentication",
+                "http",
+                "laminas",
+                "mezzio",
+                "middleware",
+                "psr-15",
+                "psr-7"
+            ],
+            "time": "2019-12-31T15:42:30+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-authentication-basic",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-authentication-basic.git",
+                "reference": "5cb56bd430e68d499e8ff4bb66d93385e632c7d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-authentication-basic/zipball/5cb56bd430e68d499e8ff4bb66d93385e632c7d0",
+                "reference": "5cb56bd430e68d499e8ff4bb66d93385e632c7d0",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-authentication": "^1.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1"
+            },
+            "replace": {
+                "zendframework/zend-expressive-authentication-basic": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^7.0.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Authentication\\Basic\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Authentication\\Basic\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "HTTP Basic Authentication adapter for mezzio-authentication.",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "Authentication",
+                "http-basic",
+                "laminas",
+                "mezzio"
+            ],
+            "time": "2019-12-31T15:42:35+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-authentication-session",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-authentication-session.git",
+                "reference": "e1767be6ef226392254e46e865bb2cce72e57c7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-authentication-session/zipball/e1767be6ef226392254e46e865bb2cce72e57c7b",
+                "reference": "e1767be6ef226392254e46e865bb2cce72e57c7b",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-authentication": "^1.0",
+                "mezzio/mezzio-session": "^1.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1"
+            },
+            "replace": {
+                "zendframework/zend-expressive-authentication-session": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^7.0.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Authentication\\Session\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Authentication\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Username/password, session-backed authentication adapter for mezzio-authentication.",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "Authentication",
+                "laminas",
+                "mezzio",
+                "session"
+            ],
+            "time": "2019-12-31T15:43:23+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-authorization",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-authorization.git",
+                "reference": "890e1c13d58bd56ee04dc864ecb0bc3604a997e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-authorization/zipball/890e1c13d58bd56ee04dc864ecb0bc3604a997e1",
+                "reference": "890e1c13d58bd56ee04dc864ecb0bc3604a997e1",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-authentication": "^1.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "conflict": {
+                "container-interop/container-interop": "<1.2.0"
+            },
+            "replace": {
+                "zendframework/zend-expressive-authorization": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^7.0.2"
+            },
+            "suggest": {
+                "mezzio/mezzio-authorization-acl": "^1.0; provides a laminas-permissions-acl-backed adapter",
+                "mezzio/mezzio-authorization-rbac": "^1.0; provides a laminas-permissions-rbac-backed adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Authorization\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Authorization\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Authorization middleware for Mezzio and PSR-7 applications",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "authorization",
+                "laminas",
+                "mezzio",
+                "middleware",
+                "psr-15",
+                "psr-7"
+            ],
+            "time": "2019-12-31T15:43:27+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-authorization-rbac",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-authorization-rbac.git",
+                "reference": "51b1617ef2c7de931985fbf7e5e97d42c53618bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-authorization-rbac/zipball/51b1617ef2c7de931985fbf7e5e97d42c53618bd",
+                "reference": "51b1617ef2c7de931985fbf7e5e97d42c53618bd",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-permissions-rbac": "^2.5.1 || ^3.0",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-authorization": "^1.0",
+                "mezzio/mezzio-router": "^3.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1"
+            },
+            "conflict": {
+                "container-interop/container-interop": "<1.2.0",
+                "phpspec/prophecy": "<1.10.2"
+            },
+            "replace": {
+                "zendframework/zend-expressive-authorization-rbac": "^1.0.2"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-servicemanager": "^3.3",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Authorization\\Rbac\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Authorization\\Rbac\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Description of project goes here",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "authorization",
+                "laminas",
+                "mezzio",
+                "psr-7",
+                "rbac"
+            ],
+            "time": "2020-03-28T19:35:34+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-csrf",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-csrf.git",
+                "reference": "0ea0c191191d49d4395efd3d7323d324e10024d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-csrf/zipball/0ea0c191191d49d4395efd3d7323d324e10024d0",
+                "reference": "0ea0c191191d49d4395efd3d7323d324e10024d0",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-session": "^1.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "conflict": {
+                "phpspec/prophecy": "<1.7.2"
+            },
+            "replace": {
+                "zendframework/zend-expressive-csrf": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "mezzio/mezzio-flash": "^1.0",
+                "phpunit/phpunit": "^7.0.2"
+            },
+            "suggest": {
+                "mezzio/mezzio-flash": "^1.0.0alpha1 || ^1.0 To back CSRF tokens using flash messages"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Csrf\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Csrf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "CSRF token generation and validation for PSR-7 and PSR-15 applications using mezzio-session",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "csrf",
+                "laminas",
+                "mezzio",
+                "psr-15",
+                "psr-7",
+                "security",
+                "session"
+            ],
+            "time": "2019-12-31T15:43:40+00:00"
+        },
+        {
             "name": "mezzio/mezzio-fastroute",
             "version": "3.0.3",
             "source": {
@@ -3549,6 +4111,68 @@
                 "psr-7"
             ],
             "time": "2019-12-31T15:43:56+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-flash",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-flash.git",
+                "reference": "b72641eb35ddc1328354c747126ed4d7c8c3cf00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-flash/zipball/b72641eb35ddc1328354c747126ed4d7c8c3cf00",
+                "reference": "b72641eb35ddc1328354c747126ed4d7c8c3cf00",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-session": "^1.0",
+                "php": "^7.1",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "conflict": {
+                "phpspec/prophecy": "<1.7.2"
+            },
+            "replace": {
+                "zendframework/zend-expressive-flash": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^7.0.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Flash\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Flash\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Flash messages for PSR-7 and PSR-15 applications using mezzio-session",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "flash",
+                "laminas",
+                "mezzio",
+                "middleware",
+                "psr-15",
+                "psr-7",
+                "session"
+            ],
+            "time": "2019-12-31T15:43:59+00:00"
         },
         {
             "name": "mezzio/mezzio-helpers",
@@ -3752,6 +4376,137 @@
                 }
             ],
             "time": "2020-06-22T20:10:45+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-session",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-session.git",
+                "reference": "e1376add7b6eed510be5e34c3764841efeca1ffe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-session/zipball/e1376add7b6eed510be5e34c3764841efeca1ffe",
+                "reference": "e1376add7b6eed510be5e34c3764841efeca1ffe",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "conflict": {
+                "phpspec/prophecy": "<1.7.2"
+            },
+            "replace": {
+                "zendframework/zend-expressive-session": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "phpunit/phpunit": "^6.5.5"
+            },
+            "suggest": {
+                "mezzio/mezzio-csrf": "^1.0 || ^1.0-dev for CSRF protection capabilities",
+                "mezzio/mezzio-flash": "^1.0 || ^1.0-dev for flash message capabilities",
+                "mezzio/mezzio-session-ext": "^1.0 || ^1.0-dev for an ext-session persistence adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev",
+                    "dev-develop": "1.4.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Session\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Session container and middleware for PSR-7 applications",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "laminas",
+                "mezzio",
+                "middleware",
+                "psr-7",
+                "session"
+            ],
+            "time": "2019-12-31T15:46:11+00:00"
+        },
+        {
+            "name": "mezzio/mezzio-session-ext",
+            "version": "1.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mezzio/mezzio-session-ext.git",
+                "reference": "7e106f167f1af4e6a66ffb106ade4be0b32645b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mezzio/mezzio-session-ext/zipball/7e106f167f1af4e6a66ffb106ade4be0b32645b2",
+                "reference": "7e106f167f1af4e6a66ffb106ade4be0b32645b2",
+                "shasum": ""
+            },
+            "require": {
+                "dflydev/fig-cookies": "^2.0.1",
+                "ext-session": "*",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "mezzio/mezzio-session": "^1.3",
+                "php": "^7.3"
+            },
+            "replace": {
+                "zendframework/zend-expressive-session-ext": "^1.7.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-diactoros": "^1.6",
+                "phpunit/phpunit": "^9.0.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9.x-dev",
+                    "dev-develop": "1.10.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Mezzio\\Session\\Ext\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mezzio\\Session\\Ext\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "ext-session persistence adapter for mezzio-session",
+            "homepage": "https://mezzio.dev",
+            "keywords": [
+                "components",
+                "ext-session",
+                "laminas",
+                "mezzio",
+                "psr-7",
+                "session"
+            ],
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2020-05-27T14:12:23+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
