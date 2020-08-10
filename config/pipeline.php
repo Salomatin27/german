@@ -74,7 +74,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // authentication
     $app->pipe(\App\Middleware\UserMiddleware::class);
     // navigation
-    //$app->pipe(App\Middleware\NavigationMiddleware::class);
+    $app->pipe(App\Middleware\NavigationMiddleware::class);
     // authorization
     $app->pipe(\Mezzio\Authorization\AuthorizationMiddleware::class);
 

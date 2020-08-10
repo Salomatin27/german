@@ -40,23 +40,33 @@ $this->inlineScript()
                 </div>
                 <!-- Links -->
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href="https://docs.mezzio.dev/mezzio" target="_blank" class="nav-link">
-                                <i class="fa fa-book"></i> Docs
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://github.com/mezzio/mezzio" target="_blank" class="nav-link">
-                                <i class="fa fa-wrench"></i> Contribute
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=$this->url('api.ping')?>" class="nav-link">
-                                Ping Test
-                            </a>
-                        </li>
-                    </ul>
+<!--                    <ul class="navbar-nav mr-auto">-->
+<!--                        <li class="nav-item">-->
+<!--                            <a href="https://docs.mezzio.dev/mezzio" target="_blank" class="nav-link">-->
+<!--                                <i class="fa fa-book"></i> Docs-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a href="https://github.com/mezzio/mezzio" target="_blank" class="nav-link">-->
+<!--                                <i class="fa fa-wrench"></i> Contribute-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a href="--><?//=$this->url('api.ping')?><!--" class="nav-link">-->
+<!--                                Ping Test-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+
+                    <?php
+                    $this->navigation()->menu()->setPartial('partial::navigation');
+                    echo $this->navigation('default')
+                        ->menu()
+                        ->setMinDepth(0)
+                        ->setMaxDepth(0)
+                        ->render();
+                    ?>
+
                 </div>
             </div>
         </nav>
