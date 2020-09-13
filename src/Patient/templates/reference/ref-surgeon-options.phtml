@@ -1,0 +1,26 @@
+<?php
+
+$items=$this->items;
+/** @var \App\Entity\Surgeon $item */
+$item=null;
+
+?>
+
+<option value="">...</option>
+<?php foreach ($items as $item): ?>
+
+    <?php
+    $id = $item->getSurgeonId();
+    $name = $this->escapeHtml($item->getSurgeonName());
+    $label = $name;
+    ?>
+
+    <option
+            class="form-control"
+            value="<?=$id?>"
+            data-id="<?=$id?>"
+            data-name="<?=$name?>">
+        <?=$label?>
+    </option>
+
+<?php endforeach; ?>

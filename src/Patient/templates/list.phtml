@@ -1,0 +1,66 @@
+<?php
+/** @var \Laminas\View\Renderer\PhpRenderer $this */
+$this->headTitle('Patients list');
+$keyword=$this->keyword;
+$this->inlineScript()
+    ->prependFile('/js/patients.js');
+
+?>
+<div class="h3">Patienten</div>
+<hr>
+<div class="row">
+    <div class="col-2">
+        <form method="post" action="<?= $this->url('patient.create'); ?>">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="d-none d-sm-block"><?=$this->lngLabel('Schaffen', 'create', true)?></span>
+            </button>
+        </form>
+    </div>
+    <div class="col-10">
+        <form id="search-patients" autocomplete="off">
+            <div class="row">
+                <div class="col-10">
+                    <div class="form-group position-relative has-clear">
+                        <!--                               placeholder="patient's surname or first name"-->
+                        <input id="filter-keyword" type="text" name="keyword"
+                               class="form-control "
+                               placeholder="nachname oder vorname des patienten"
+                               value="<?= $this->escapeHtml($keyword); ?>" >
+                        <i class="far fa-times-circle form-control-clear invisible"></i>
+                    </div>
+                </div>
+                <div class="col-2">
+<!--                    <input type="submit" value="<i class="fa fa-plus" aria-hidden="true"></i>Finden" class="btn  btn-primary float-right">-->
+                    <button type="submit" class="btn  btn-primary float-right">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <span class="d-none d-sm-block">
+                            <?=$this->lngLabel('Finden', 'find', true)?>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+
+        <tr>
+            <th></th>
+            <th>Patient</th>
+            <th>Geburtsdatum <br><span class="english-label">birthday</span></th>
+            <th></th>
+        </tr>
+
+
+    </table>
+</div>
+
+<div id="img-load" class="text-center" style="display: none">
+    <img src="/img/ajax-loader.gif" alt="loading">
+</div>
+<div class="text-center" style="display:none">
+    <button id="more" class="btn btn-primary">More...</button><br /><br />
+</div>
+

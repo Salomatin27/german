@@ -1,0 +1,51 @@
+<?php
+/** @var Laminas\View\Renderer\PhpRenderer $this */
+$images = $this->images;
+$sub_link = '/image/';
+$this->form->prepare();
+?>
+<br>
+<fieldset>
+    <legend>Foto <span class="english-label">photo</span> </legend>
+    <?= $this->form()->openTag($this->form); ?>
+
+    <div class="form-group">
+        <?= $this->formElement($this->form->get('file')); ?>
+        <a href="#" class="fileSelect btn btn-sm btn-secondary">Select file</a>
+        <?= $this->formElementErrors($this->form->get('file')); ?>
+    </div>
+
+    <?= $this->form()->closeTag(); ?>
+</fieldset>
+<hr/>
+
+
+<div class="row">
+    <div class="col-md-12" id="image-panel_<?=$this->id?>">
+
+        <?php if(count($images)==0): ?>
+
+            <p>
+                <i>Нет изображений для отображения.</i>
+            </p>
+
+        <?php else: ?>
+
+        <?php foreach($images as $image):
+
+            echo $this->partial('patient::thumbnail', ['image' => $image]);
+
+
+        endforeach; ?>
+
+        <?php endif; ?>
+    </div>
+</div>
+
+
+
+
+
+
+
+

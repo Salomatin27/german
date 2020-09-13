@@ -1,0 +1,175 @@
+<?php
+/** @var \App\Entity\Operation $operation */
+$operation = $this->operation;
+$identity = $this->identity;
+if (!$operation) {
+    $operation = [
+        'operationId' => null,
+        'surgeonId' => null,
+        'clinicId' => null,
+        'date' => null,
+        'remarks' => null,
+        'caseNumber' => null,
+        'patientHeight' => null,
+        'patientWeight' => null,
+    ];
+}
+$labels = [
+    'date'          => $this->lngLabel('Datum', 'date'),
+    'remarks'       => $this->lngLabel('Bemerkungen', 'remarks'),
+    'caseNumber'    => $this->lngLabel('Fallnummer', 'case number'),
+    'patientHeight' => $this->lngLabel('Patientengröße', 'patient height'),
+    'patientWeight' => $this->lngLabel('Patientengewicht', 'patient weight'),
+    'surgeon'       => $this->lngLabel('Operateur', 'surgeon'),
+    'clinic'        => $this->lngLabel('Klinik', 'clinic'),
+];
+
+$date = $operation['date'] ? date_create($operation['date'])->format('d-m-Y') : '...';
+$remove_text1 = 'Löschen operation ' . $date;
+$remove_text2 = 'delete operation ' . $date;
+
+?>
+
+
+<tr data-id="<?=$operation['operationId']?>" class="operation-row delete-object">
+    <input type="hidden"
+           class="form-control form-control-sm"
+           name="operation[<?=$operation['operationId']?>][surgeonId]"
+           id="operation[<?=$operation['operationId']?>][surgeonId]"
+           value="<?=$operation['surgeonId']?>"
+    >
+    <input type="hidden"
+           class="form-control form-control-sm"
+           name="operation[<?=$operation['operationId']?>][operationId]"
+           id="operation[<?=$operation['operationId']?>][operationId]"
+           value="<?=$operation['operationId']?>"
+    >
+    <input type="hidden"
+           class="form-control form-control-sm"
+           name="operation[<?=$operation['operationId']?>][clinicId]"
+           id="operation[<?=$operation['operationId']?>][clinicId]"
+           value="<?=$operation['clinicId']?>"
+    >
+    <td>
+        <div class="row">
+            <div class="col-md-1">
+                <span class="badge badge-primary"><?=$this->object_num?></span>
+                <a href="javascript:void(0)"
+                   onclick="removeDocument('<?=$this->url('operation.delete',['id'=>$operation['operationId']])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)"
+                   class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <label class=" text-sm-left"><small><?=$labels['date']?></small></label>
+                <input type="text"
+                       class="form-control form-control-sm datetimepicker"
+                       name="operation[<?=$operation['operationId']?>][date]"
+                       value="<?=$this->escapeHtml($operation['date'])?>"
+                       maxlength="50">
+
+            </div>
+            <div class="col-md-5">
+                <label class=" text-sm-left"><small><?=$labels['surgeon']?></small></label>
+                <select style="box-sizing: border-box !important;" class="selectpicker"
+                        name="operation[<?=$operation['operationId']?>][surgeon]"
+                        id="operation[<?=$operation['operationId']?>][surgeon]"
+                        data-db="surgeon"
+                        data-width="100%"
+                        data-style="btn-primary"
+                        data-live-search="true"
+                        title="..."
+                >
+                    <?php
+                    foreach ($this->surgeons as $surgeon):
+                        $selected =
+                            intval($operation['surgeonId']) === $surgeon->getSurgeonId() ? 'selected' : '';
+                        echo '<option ' . $selected . ' class="form-control form-control-sm" '
+                            . 'data-id="' . $surgeon->getSurgeonId()
+                            . '" data-name="' . $surgeon->getSurgeonName()
+                            . '" value="' . $surgeon->getSurgeonId() . '">'
+                            . $surgeon->getSurgeonName() . '</option>';
+                    endforeach;
+                    ?>
+                </select>
+
+            </div>
+            <div class="col-md-2">
+                <a style="margin-top: 2rem" href="javascript:void(0)" onclick="reference('surgeon', this)" class="btn btn-secondary">
+                    <i class="fas fa-pen"></i> Surgeons
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-4 offset-md-1">
+                <label class=" text-sm-left"><small><?=$labels['caseNumber']?></small></label>
+                <input type="text"
+                       class="form-control form-control-sm"
+                       name="operation[<?=$operation['operationId']?>][caseNumber]"
+                       value="<?=$this->escapeHtml($operation['caseNumber'])?>"
+                       maxlength="10">
+
+            </div>
+            <div class="col-md-5">
+                <label class=" text-sm-left"><small><?=$labels['clinic']?></small></label>
+                <select style="box-sizing: border-box !important;" class="selectpicker"
+                       name="operation[<?=$operation['operationId']?>][clinic]"
+                       id="operation[<?=$operation['operationId']?>][clinic]"
+                        data-db="clinic"
+                        data-width="100%"
+                        data-style="btn-primary"
+                        data-live-search="true"
+                        title="..."
+                >
+                    <?php
+                    foreach ($this->clinics as $clinic):
+                        $selected =
+                            intval($operation['clinicId']) === $clinic->getClinicId() ? 'selected' : '';
+                        echo '<option ' . $selected . ' class="form-control form-control-sm" '
+                            . 'data-id="' . $clinic->getClinicId()
+                            . '" data-name="' . $clinic->getClinicName()
+                            . '" value="' . $clinic->getClinicId() . '">'
+                            . $clinic->getClinicName() . '</option>';
+                    endforeach;
+                    ?>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <a style="margin-top: 2rem" href="javascript:void(0)" onclick="reference('clinic', this)" class="btn btn-secondary">
+                    <i class="fas fa-pen"></i> Clinics
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-5 offset-md-1">
+                <label class=" text-sm-left"><small><?=$labels['patientHeight']?></small></label>
+                <input type="text"
+                       class="form-control form-control-sm"
+                       name="operation[<?=$operation['operationId']?>][patientHeight]"
+                       value="<?=$operation['patientHeight']?>"
+                >
+            </div>
+            <div class="col-md-5 offset-md-1">
+                <label class=" text-sm-left"><small><?=$labels['patientWeight']?></small></label>
+                <input type="text"
+                       class="form-control form-control-sm"
+                       name="operation[<?=$operation['operationId']?>][patientWeight]"
+                       value="<?=$operation['patientWeight']?>"
+                >
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-11 offset-md-1">
+                <label class=" text-sm-left"><small><?=$labels['remarks']?></small></label>
+                <textarea
+                       class="form-control form-control-sm"
+                       name="operation[<?=$operation['operationId']?>][remarks]"
+                       rows="3">
+                    <?=$this->escapeHtml($operation['remarks'])?>
+                </textarea>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-11 offset-md-1">
+                <div class="operation-photo">
+                </div>
+            </div>
+        </div>
+
+    </td>
+</tr>

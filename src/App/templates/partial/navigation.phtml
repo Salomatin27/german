@@ -1,5 +1,6 @@
 <ul class="navbar-nav mr-auto">
-    <?php foreach ($this->container as $page):?>
+    <?php /** @var \App\Navigation\ExpressiveNavigationPage $page */
+    foreach ($this->container as $page):?>
         <?php if ($this->navigation()->accept($page)):?>
             <li class="nav-item">
                 <?php
@@ -11,6 +12,10 @@
                 ?>
                 <a href="<?=$href?>" class="nav-link" target="<?=$page->getTarget()?>">
                     <?=$page->getTitle()?> <?=$page->getLabel()?>
+                    <br>
+                    <span class="english-label">
+                        <?=$page->getCustomProperties()['english'] ?? '';?>
+                    </span>
                 </a>
             </li>
         <?php endif;?>

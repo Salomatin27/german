@@ -37,9 +37,9 @@ use Psr\Container\ContainerInterface;
  * );
  */
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
-    $app->get('/', App\Handler\HomePageHandler::class, 'home');
-    $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
-    $app->get('/doctrine', \App\Handler\DoctrineHandler::class, 'doctrine.test');
+    $app->get('/', App\Handler\HomeHandler::class, 'home');
+    //$app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
+    //$app->get('/doctrine', \App\Handler\DoctrineHandler::class, 'doctrine.test');
 
     $app->route(
         '/login',
@@ -56,4 +56,93 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         'login'
     );
     $app->get('/logout', \App\Handler\LogoutPageHandler::class, 'logout');
+
+    // patient
+    $app->get(
+        '/patients[/{page}]',
+        [
+            \App\Middleware\StoreParametersMiddleware::class,
+            \Patient\Handler\ListHandler::class,
+        ],
+        'patients'
+    );
+    $app->route(
+        '/patient/{id}',
+        [
+            CsrfMiddleware::class,
+            PrgMiddleware::class,
+            \Patient\Handler\EditHandler::class
+        ],
+        ['GET', 'PATCH', 'POST'],
+        'patient.edit'
+    );
+    $app->route(
+        '/patient',
+        Patient\Handler\CreateHandler::class,
+        ['post'],
+        'patient.create'
+    );
+    $app->delete(
+        '/patient/{id}',
+        \Patient\Handler\DeleteHandler::class,
+        'patient.delete'
+    );
+    $app->get(
+        '/patient-images/{id}',
+        \Patient\Handler\ListImagesHandler::class,
+        'patient-images.list'
+    );
+    $app->post(
+        '/patient-images/{id}',
+        \Patient\Handler\SaveImageHandler::class,
+        'patient-images.save'
+    );
+    $app->post(
+        '/patient-photo/{id}',
+        \Patient\Handler\SavePhotoHandler::class,
+        'patient-photo.save'
+    );
+    $app->get(
+        '/image/{id}',
+        \Patient\Handler\ViewImageHandler::class,
+        'image.view'
+    );
+    $app->delete(
+        '/image/{id}',
+        \Patient\Handler\DeleteImageHandler::class,
+        'image.delete'
+    );
+    $app->post(
+        '/operation/{id}',
+        Patient\Handler\CreateOperationHandler::class,
+        'operation.create'
+    );
+    $app->delete(
+        '/operation/{id}',
+        Patient\Handler\DeleteOperationHandler::class,
+        'operation.delete'
+    );
+
+    // reference
+    $app->get(
+        '/reference/{item}',
+        \Patient\Reference\OpenHandler::class,
+        'reference.open'
+    );
+    $app->route(
+        '/reference/{item}',
+        \Patient\Reference\UpdateHandler::class,
+        ['POST', 'PATCH'],
+        'reference.save'
+    );
+    $app->get(
+        '/reference-options/{item}',
+        \Patient\Reference\OptionsHandler::class,
+        'reference.options'
+    );
+    $app->delete(
+        '/reference/{item}/{id}',
+        \Patient\Reference\DeleteHandler::class,
+        'reference.delete'
+    );
 };

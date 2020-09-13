@@ -17,3 +17,16 @@ RewriteRule ^.*$ - [NC,L]
 RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
+
+# The Web Server is LiteSpeed
+<IfModule mod_security.c>
+    SecFilterScanPOST Off
+</IfModule>
+
+php_value post_max_size 10M
+php_value max_input_vars 1000
+
+# Set the “alt-php71” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddType application/x-httpd-alt-php73___lsphp .php .php7 .phtml
+</IfModule>

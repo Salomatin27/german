@@ -30,16 +30,25 @@ return [
     'navigation' => [
         'default' => [
             [
-                'label' => 'Home',
+                'label' => 'Haus',
                 'route' => 'home',
+                'english' => 'home'
             ],
             [
-                'label' => 'Doctrine',
-                'route' => 'doctrine.test',
+                'label' => 'Patienten',
+                'route' => 'patients',
+                'english' => 'patients',
+                'pages' => [
+                    [
+                        'label' => 'Patient',
+                        'route' => 'patient.edit',
+                    ],
+                ],
             ],
             [
-                'label' => 'Logout',
+                'label' => 'Ausloggen',
                 'route' => 'logout',
+                'english' => 'logout',
                 'title' => '<i class="fa fa-sign-out-alt"></i>',
             ],
         ],

@@ -1,0 +1,41 @@
+.find-list {
+    background-color: var(--light);
+    z-index: 2;
+    position: absolute;
+    max-height: 10rem;
+    overflow: auto;
+    border-color: var(--gray);
+    border-width: 0.5px;
+    border-style: solid;
+
+}
+.photo-small {
+    display: inline-block;
+    width: 5rem;
+}
+.form-control-clear {
+    bottom: 10px;
+    color: rgba(0, 0, 0, .54);
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    width: 24px;
+    z-index: 10;
+}
+.has-clear {
+    margin-bottom: 0;
+}
+.table {
+    margin-top: 1rem;
+}
+.english-label {
+    font-weight: lighter;
+    font-size: smaller;
+}
+.patient-photo {
+    width: 8rem;
+}
+.operation-row {
+    border-style: solid;
+    border-width: unset;
+}

@@ -1,0 +1,29 @@
+<?php
+/** @var \Patient\Form\PatientForm $form */
+$form = $this->form;
+
+?>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('firstName'))?>
+        </div>
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('surname'))?>
+        </div>
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('birthday'))?>
+        </div>
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('street'))?>
+        </div>
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('postCode'))?>
+        </div>
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('residence'))?>
+        </div>
+        <div class="col-sm-4">
+            <?=$this->formRow($form->get('phone'))?>
+        </div>
+    </div>

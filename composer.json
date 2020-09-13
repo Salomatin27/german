@@ -64,7 +64,9 @@
         "mezzio/mezzio-helpers": "^5.3",
         "mezzio/mezzio-laminasviewrenderer": "^2.2",
         "mezzio/mezzio-session-ext": "^1.9",
-        "roave/psr-container-doctrine": "^2.2"
+        "roave/psr-container-doctrine": "^2.2",
+      "ext-fileinfo": "*",
+      "ext-gd": "*"
     },
     "require-dev": {
         "laminas/laminas-development-mode": "^3.2",
@@ -77,7 +79,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/App/src/"
+            "App\\": "src/App/src/",
+            "Patient\\": "src/Patient/src/"
         }
     },
     "autoload-dev": {

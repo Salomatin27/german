@@ -1,0 +1,34 @@
+<?php
+$image = $this->image;
+$sub_link = '/image/';
+if (empty($image)) return '';
+
+$remove_text1 = 'Löschen foto ' . $image['name'];
+$remove_text2 = 'delete photo ' . $image['name'];
+$object = '.img-thumbnail[data-id="' . $image['id'] . '"]';
+
+?>
+
+<div class="img-thumbnail delete-object" data-id="<?= $image['id'] ?>" style="display: inline-block;">
+
+    <a target="_blank" href="<?= $sub_link.$image['id']; ?>">
+        <img alt="photo" src="<?= $sub_link.$image['id'].'?thumbnail=1'; ?>" style="width: 9rem">
+    </a>
+
+    <div class="caption">
+        <a href="javascript:void(0)"
+           onclick="removeDocument(
+                   '<?=$this->url('image.delete',['id'=>$image['id']])?>',
+                   '<?=$remove_text1?>',
+                   '<?=$remove_text2?>',
+                   this
+                   )"
+           class="btn btn-sm btn-danger ml-1 mr-1 mt-1">
+            <i class="fas fa-trash" aria-hidden="true"></i>
+        </a>
+<!--        <p>-->
+<!--            <span class="text-secondary small" style="word-wrap: break-word">--><?php //echo $image['name'] ?><!--</span>-->
+<!--        </p>-->
+    </div>
+</div>
+

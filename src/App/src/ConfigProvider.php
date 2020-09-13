@@ -6,8 +6,12 @@ namespace App;
 
 use App\Factory\AbstractHandlerFactory;
 use App\Helper\Flash;
+use App\Helper\LngLabel;
+use App\Helper\LngLabelFactory;
 use App\Middleware\PrgMiddleware;
 use App\Middleware\StoreParametersMiddleware;
+use App\Service\Site;
+use App\Service\SiteFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 /**
@@ -31,7 +35,13 @@ class ConfigProvider
             'view_helpers' => [
                 'invokables' => [
                     'flash' => Flash::class,
+                    'lngLabel' => LngLabel::class,
                 ],
+                'aliases' => [
+
+                ],
+                'factories' => [
+                ]
             ],
         ];
     }
@@ -49,6 +59,7 @@ class ConfigProvider
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
                 PrgMiddleware::class => InvokableFactory::class,
                 StoreParametersMiddleware::class => InvokableFactory::class,
+                Site::class => SiteFactory::class,
             ],
             'abstract_factories' => [
                 AbstractHandlerFactory::class,

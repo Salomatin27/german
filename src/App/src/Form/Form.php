@@ -16,14 +16,14 @@ class Form extends \Laminas\Form\Form
 
     public function __construct(
         EntityManager $entityManager,
-        $name = null,
+        $name,
         array $options = []
     ) {
         parent::__construct($name, $options);
         $this->entityManager = $entityManager;
 
         // Set POST method for this form
-        $this->setAttribute('method', 'post');
+        $this->setAttribute('method', 'patch');
         $this->setAttribute('autocomplete', 'off');
 
         // agent for html5 date
@@ -48,5 +48,22 @@ class Form extends \Laminas\Form\Form
                 'value' => $this->mobile_user_agent,
              ],
         ]);
+    }
+
+    public function label(string $baseLabel, string $secondLabel, bool $breakers = false) : string
+    {
+        $output = '';
+        if (!empty($baseLabel)) {
+            $output = $baseLabel;
+        }
+        if (!empty($secondLabel)) {
+            $output = $output . ' '
+                . ($breakers ? '<br>' : '')
+                . '<span class="english-label text-secondary">'
+                . $secondLabel . '</span>';
+        }
+
+
+        return $output;
     }
 }

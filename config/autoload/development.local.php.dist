@@ -50,5 +50,8 @@ return [
         // *** end for developer server
     ],
 
+    'site' => [
+        'url' => 'http://localhost:8017',
+    ],
 
 ];

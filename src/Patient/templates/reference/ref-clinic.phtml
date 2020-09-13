@@ -1,0 +1,54 @@
+<?php
+/** @var \App\Entity\Clinic[] $items */
+$items = $this->items;
+
+?>
+
+<div class="h3">
+    Reference <span class="small">clinics</span>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <a class="btn btn-primary" href="javascript:void(0);" onclick="editReference(event)"
+           data-id="0"
+           data-ref="clinic" data-name="" data-address="">
+            <i class="fa fa-plus" aria-hidden="true"></i> <?=$this->lngLabel('Schaffen', 'create', true)?>
+        </a>
+    </div>
+    <div class="col-sm-6">
+        <input type="text" class="form-control"
+               placeholder="фильтр (введите 3 символа)"
+               onkeyup="find(this)">
+    </div>
+    <div class="col-sm-3 pull-right">
+        <a href="javascript:void(0)"
+           class="btn btn-secondary float-right"
+           onclick="closeReference('clinic')">
+            <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngLabel('Schließen', 'close', true)?>
+        </a>
+    </div>
+</div>
+<br>
+
+<div id="data-panel">
+    <div class="list-group">
+        <div class="list-group-item-heading">
+            <div class="row">
+                <div class="col-sm-6">
+                    Имя/Наименование
+                </div>
+            </div>
+        </div>
+
+        <?php foreach ($items as $item): ?>
+
+            <?php
+            echo $this->partial('reference::view-clinic', ['item'=>$item]);
+            ?>
+
+        <?php endforeach; ?>
+
+    </div>
+</div>
+

@@ -1,0 +1,37 @@
+<?php
+
+/** @var \App\Entity\Clinic $item */
+$item = $this->item;
+$id = $item->getClinicId();
+$name = $this->escapeHtml($item->getClinicName());
+$address = $this->escapeHtml($item->getClinicAddress());
+
+$remove_text1 = 'Löschen operation ' . $name;
+$remove_text2 = 'delete surgeon ' . $name;
+
+?>
+
+<div class="list-group-item delete-object" data-id="<?= $id ?>">
+    <div class="row">
+        <div class="col-sm-6 float-left">
+            <a href="javascript:void(0)" onclick="editReference(event)"
+               class="value-ref"
+               data-id="<?=$id?>"
+               data-name="<?=$name?>"
+               data-address="<?=$address?>"
+               data-ref="clinic"
+            >
+                <?= $name ?>
+            </a>
+        </div>
+        <div class="col-sm-2 float-right">
+            <a href="javascript:void(0)"
+               class="float-right text-danger"
+               onclick="removeDocument('<?=$this->url('reference.delete',['item' => 'clinic', 'id' => $id])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)">
+                <i class="fas fa-trash"></i>
+            </a>
+
+        </div>
+
+    </div>
+</div>

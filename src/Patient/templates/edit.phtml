@@ -1,0 +1,166 @@
+<?php
+/** @var \App\Entity\Patient $patient */
+$patient = $this->patient;
+/** @var \Patient\Form\PatientForm $form */
+$form = $this->form;
+/** @var \Mezzio\Authentication\DefaultUser $identity */
+$identity = $this->identity;
+/** @var \App\Entity\Operation[] $operations */
+$operations = $this->operations;
+
+$this->headLink()
+    ->prependStylesheet("https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css");
+$this->inlineScript()
+    ->prependFile("https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js");
+
+$this->inlineScript()->prependFile('/js/tab-restore.js');
+$this->inlineScript()->prependFile('/js/edit-patient.js');
+$this->inlineScript()->prependFile('/js/reference.js');
+$this->inlineScript()->prependFile('/js/base.js');
+
+$this->inlineScript()->prependFile('/js/remove-window.js');
+$this->inlineScript()->prependFile('/js/bootstrap-datetimepicker.min.js');
+$this->inlineScript()->prependFile('/js/moment.js');
+$this->headLink()->prependStylesheet('/css/bootstrap-datetimepicker.min.css');
+$this->form_photo->prepare();
+
+$form->setAttribute('action', $this->url('patient.edit',['id'=>$patient->getPatientId()]));
+$form->setAttribute('method', 'post');
+$form->prepare();
+//echo $this->formElement($form->get('surgeon'));
+//echo $this->formElement($form->get('clinic'));
+
+//require_once $_SERVER['PWD'] . '/src/App/src/Service/phpqrcode.php';
+?>
+<div id="reference"></div>
+<div id="patient">
+    <div class="row">
+        <div class="col-6">
+            <div class="h3">
+                <?php
+                echo 'Patient ' . '<small class="text-primary h5">'
+                    . $patient->getFirstName() . ' ' . $patient->getSurname() . '</small>';
+                ?>
+            </div>
+            <div class="" id="age-label">
+                <span id="age-value" class="text-primary"></span>
+                <span ><?=$this->lngLabel('Jahre alt', 'Years old')?></span>
+            </div>
+            <div class="float-left" id="patient-photo-div">
+                <?=$this->formElement($form->get('image'))?>
+                <?= $this->form()->openTag($this->form_photo); ?>
+
+                <div class="form-group">
+                    <?= $this->formElement($this->form_photo->get('file')); ?>
+<!--                    <a href="#" class="fileSelect">-->
+<!--                        <img class="img-thumbnail patient-photo"-->
+<!--                             src="--><?//=$form->get('image')->getValue()?><!--"-->
+<!--                             alt="patient">-->
+<!--                    </a>-->
+                    <?= $this->formElementErrors($this->form_photo->get('file')); ?>
+                </div>
+
+                <?= $this->form()->closeTag(); ?>
+            </div>
+            <img alt="qrcode" id="" class="d-none d-sm-block"
+                 src="data:image;base64,<?= base64_encode($this->qrcode); ?>"
+                 style="">
+
+        </div>
+        <div class="col-6">
+            <?php
+            $remove_text1 = 'Löschen patient ' . trim($patient->getSurname());
+            $remove_text2 = 'delete patient ' . trim($patient->getSurname());
+            ?>
+            <a href="javascript:void(0)"
+               onclick="removeDocument('<?=$this->url('patient.delete',['id'=>$patient->getPatientId()])?>', '<?=$remove_text1?>', '<?=$remove_text2?>')"
+               class="btn btn-danger mr-1 mb-1">
+                <i class="fas fa-trash" aria-hidden="true"></i> <?=$this->lngLabel('LÖSCHEN', 'delete', true)?>
+            </a>
+            <button type="submit"
+                    class="btn btn-success mr-1 mb-1" >
+                <i class="far fa-save" aria-hidden="true"></i> <?=$this->lngLabel('SPAREN', 'save', true)?>
+            </button>
+        </div>
+    </div>
+
+    <?php
+    echo $this->form()->openTag($form);
+    echo $this->formElement($form->get('patientId'));
+    echo $this->formElement($form->get('csrf'));
+    ?>
+
+    <ul id="document-tab" class="nav nav-pills mb-3" role="tablist">
+        <li class="nav-item">
+            <a id="patient-tab" class="nav-link active" href="#_patient" data-toggle="pill" role="tab" aria-controls="_patient"
+               aria-selected="true"><?=$this->lngLabel('Grundinformationen', 'basic data of patient', true)?></a>
+        </li>
+        <li class="nav-item">
+            <a id="operation-tab" class="nav-link" href="#_operation" data-toggle="pill" role="tab" aria-controls="_operation"
+               aria-selected="false"><?=$this->lngLabel('Betrieb/Beratung', 'operations/consultation', true)?></a>
+        </li>
+        <li class="nav-item">
+            <a id="history-tab" class="nav-link" href="#_history" data-toggle="pill" role="tab" aria-controls="_history"
+               aria-selected="false"><?=$this->lngLabel('Geschichte', 'history', true)?></a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="patient-tabContent" >
+
+        <!--    patient-->
+        <div class="tab-pane fade show active" id="_patient" role="tabpanel" aria-labelledby="patient-tab" >
+            <?php echo $this->partial('patient::patient', ['form'=>$form]);?>
+        </div>
+
+        <!--    operation-->
+        <div class="tab-pane fade" id="_operation" role="tabpanel" aria-labelledby="operation-tab">
+            <a href="javascript:void(0)" onclick="addOperationRow()" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> </a>
+            <div class=""> <!-- table-responsive table-responsive-sm -->
+                <table  class="table table-sm table-bordered table-striped">
+                    <thead class="thead">
+                    <th scope="col"><?=$this->lngLabel('Liste der Operationen', 'list of operations')?></th>
+                    </thead>
+                    <tbody>
+                    <?php if (is_array($operations)):?>
+                        <?php $object_num = 0?>
+                        <?php foreach ($operations as $operation):?>
+                            <?php $object_num += 1?>
+                            <?php echo $this->partial('patient::row-operation',
+                                [
+                                    'operation' => $operation,
+                                    'object_num' => $object_num,
+                                    'identity' => $identity,
+                                    'surgeons' => $this->surgeons,
+                                    'clinics'  => $this->clinics,
+                                ])?>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+            </div>
+            <a href="javascript:void(0)" onclick="addOperationRow()" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i></a>
+        </div>
+
+        <!--    history-->
+        <div class="tab-pane fade" id="_history" role="tabpanel" aria-labelledby="history-tab">
+            <?=$this->lngLabel('in der Vorschau-Version nicht verfügbar', 'not available in preview version', true)?>
+        </div>
+
+    </div>
+
+    <?php echo $this->form()->closeTag(); ?>
+
+</div>
+
+
+<!--empty rows-->
+<!--<div id="empty-rows" style="display: none">-->
+<!--    <table>-->
+<!--        --><?php //echo $this->partial('patient::row-operation', [
+//            'operation' => null,
+//            'identity' => $identity,
+//            'surgeons' => $this->surgeons,
+//            'clinics'  => $this->clinics,
+//        ])?>
+<!--    </table>-->
+<!--</div>-->

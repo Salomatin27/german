@@ -34,6 +34,12 @@ class LoginPageHandler implements MiddlewareInterface
         $redirectUrl = isset($queryParameters['redirectUrl'])
             ? $queryParameters['redirectUrl'] : '/';
 
+//        $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
+//        if ($session->has(UserInterface::class)) {
+//            return new RedirectResponse($redirectUrl);
+//        }
+//
+//
         /** @var SessionCsrfGuard $guard */
         $guard     = $request->getAttribute(CsrfMiddleware::GUARD_ATTRIBUTE);
         $loginForm = new LoginForm($guard);
@@ -56,7 +62,8 @@ class LoginPageHandler implements MiddlewareInterface
                     return new RedirectResponse($redirectUrl);
                 }
                 $flashMessages->flash('warning', 'Invalid login details');
-                return new RedirectResponse('/login');
+                //return new RedirectResponse('/login');
+                return $response;
             }
         }
 
