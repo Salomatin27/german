@@ -123,10 +123,19 @@ class PatientService
     {
         $error = null;
 
+        // form1 -> patient data
+        // form2 -> patient photo
+        $data2 = [];
+        foreach ($data as $key => $value) {
+            if ($key != 'image') {
+                $data2[$key] = $value;
+            }
+        }
+
         try {
             $hydrator = new DoctrineObject($this->entityManager);
             /** @var Patient $patient */
-            $patient = $hydrator->hydrate($data, $patient);
+            $patient = $hydrator->hydrate($data2, $patient);
 //
 //            // operations
 //            $obj_operations = $data['operation'] ?? null;
@@ -362,7 +371,7 @@ class PatientService
             . 'clinic.clinic_address as clinicAddress,'
             . 'operation.operation_id as operationId,operation.surgeon_id as surgeonId,'
             . 'operation.clinic_id as clinicId, '
-            . 'operation.patient_id as patientId,operation.date, '
+            . 'operation.patient_id as patientId,date_format(operation.date, \'%d-%m-%Y %H:%i\') as date, '
             . 'operation.remarks, '
             . 'operation.case_number as caseNumber, '
             . 'operation.patient_height as patientHeight, '

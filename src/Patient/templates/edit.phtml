@@ -34,6 +34,17 @@ $form->prepare();
 ?>
 <div id="reference"></div>
 <div id="patient">
+    <?php
+    echo $this->form()->openTag($this->form_photo);
+    echo $this->formElement($this->form_photo->get('file'));
+    echo $this->formElementErrors($this->form_photo->get('file'));
+    echo $this->form()->closeTag();
+
+    echo $this->form()->openTag($form);
+    echo $this->formElement($form->get('patientId'));
+    echo $this->formElement($form->get('csrf'));
+    ?>
+
     <div class="row">
         <div class="col-6">
             <div class="h3">
@@ -48,19 +59,6 @@ $form->prepare();
             </div>
             <div class="float-left" id="patient-photo-div">
                 <?=$this->formElement($form->get('image'))?>
-                <?= $this->form()->openTag($this->form_photo); ?>
-
-                <div class="form-group">
-                    <?= $this->formElement($this->form_photo->get('file')); ?>
-<!--                    <a href="#" class="fileSelect">-->
-<!--                        <img class="img-thumbnail patient-photo"-->
-<!--                             src="--><?//=$form->get('image')->getValue()?><!--"-->
-<!--                             alt="patient">-->
-<!--                    </a>-->
-                    <?= $this->formElementErrors($this->form_photo->get('file')); ?>
-                </div>
-
-                <?= $this->form()->closeTag(); ?>
             </div>
             <img alt="qrcode" id="" class="d-none d-sm-block"
                  src="data:image;base64,<?= base64_encode($this->qrcode); ?>"
@@ -83,12 +81,6 @@ $form->prepare();
             </button>
         </div>
     </div>
-
-    <?php
-    echo $this->form()->openTag($form);
-    echo $this->formElement($form->get('patientId'));
-    echo $this->formElement($form->get('csrf'));
-    ?>
 
     <ul id="document-tab" class="nav nav-pills mb-3" role="tablist">
         <li class="nav-item">
