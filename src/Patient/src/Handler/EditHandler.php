@@ -109,6 +109,7 @@ class EditHandler implements RequestHandlerInterface
         $url = $this->site->getUrl();
         $url .= '/patient/' . $patient_id;
         $qrcode = $this->code->generate($url);
+        $photo = $this->getPhoto($patient);
 
         $form_photo = new ImageForm($patient_id);
         $form_photo->setAttribute('id', 'patient-photo-form');
@@ -127,6 +128,7 @@ class EditHandler implements RequestHandlerInterface
                 'surgeons'     => $surgeons,
                 'clinics'      => $clinics,
                 'form_photo'   => $form_photo,
+                'photo'        => $photo,
             ]
         ));
     }
@@ -140,4 +142,16 @@ class EditHandler implements RequestHandlerInterface
             ]
         ];
     }
+
+    private function getPhoto($patient)
+    {
+        $image = $patient->getImage();
+        if ($image) {
+            $output = '/patient-photo/' . $patient->getPatientId();
+        } else {
+            $output = '/img/first.png';
+        }
+        return $output;
+    }
+
 }

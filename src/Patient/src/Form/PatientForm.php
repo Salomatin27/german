@@ -5,15 +5,12 @@ namespace Patient\Form;
 
 use App\Entity\Patient;
 use App\Form\Form;
-use App\Helper\LngLabel;
 use Doctrine\ORM\EntityManager;
 use Laminas\Filter\StringTrim;
 use Laminas\Form\Element\DateTime;
-use Laminas\Form\Element\File;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Image;
 use Laminas\Form\Element\Text;
-use Laminas\InputFilter\FileInput;
 use Laminas\InputFilter\InputFilterProviderInterface;
 use Laminas\Validator\Callback;
 use Laminas\Validator\StringLength;
@@ -169,21 +166,21 @@ class PatientForm extends Form implements InputFilterProviderInterface
                 'id' => 'phone',
             ],
         ]);
-        $this->add([
-            'type'  => Image::class,
-            'name' => 'image',
-            'options' => [
-                'label' => $this->label('Foto', 'photo of patient'),
-                'label_options' => [
-                    'disable_html_escape' => true,
-                ],
-            ],
-            'attributes'=> [
-                'class' => 'img-thumbnail patient-photo',
-                'src' => $this->getImage(),
-                'id' => 'image',
-            ],
-        ]);
+//        $this->add([
+//            'type'  => Image::class,
+//            'name' => 'image',
+//            'options' => [
+//                'label' => $this->label('Foto', 'photo of patient'),
+//                'label_options' => [
+//                    'disable_html_escape' => true,
+//                ],
+//            ],
+//            'attributes'=> [
+//                'class' => 'img-thumbnail patient-photo',
+//                'src' => $this->getImage(),
+//                'id' => 'image',
+//            ],
+//        ]);
 
 
 //        $this->add([
@@ -353,10 +350,10 @@ class PatientForm extends Form implements InputFilterProviderInterface
                     ],
                 ],
             ],
-            [
-                'name' => 'image',
-                'required' => false,
-            ],
+//            [
+//                'name' => 'image',
+//                'required' => false,
+//            ],
         ];
     }
 

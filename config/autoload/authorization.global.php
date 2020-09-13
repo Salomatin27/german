@@ -34,6 +34,7 @@ return [
                 'reference.options',
                 'reference.delete',
                 'patient-photo.save',
+                'patient-photo.get',
             ],
             'administrator' => [
                 'doctrine.test',

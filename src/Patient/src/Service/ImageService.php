@@ -171,6 +171,24 @@ class ImageService
         ];
     }
 
+    public function getPatientPhoto($id)
+    {
+        /** @var Patient $patient */
+        $patient = $this->entityManager->getRepository(Patient::class)
+            ->find($id);
+
+        $fileContent = $patient->getImage();
+        $fileType=$patient->getImageType();
+        $fileSize=$patient->getImageSize();
+
+
+        return $file = [
+            'content' => $fileContent,
+            'type'    => $fileType,
+            'size'    => $fileSize,
+        ];
+    }
+
     public function deleteImage($id)
     {
         $image = $this->entityManager->getRepository(Image::class)

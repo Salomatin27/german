@@ -34,6 +34,7 @@
 }
 .patient-photo {
     width: 8rem;
+    cursor: pointer;
 }
 .operation-row {
     border-style: solid;

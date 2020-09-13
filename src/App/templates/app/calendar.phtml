@@ -1,0 +1,11 @@
+<?php
+/** @var \App\Entity\Operation[] $items */
+$items = $this->items;
+
+if (count($items) < 1) {
+    echo $this->lngLabel('Keine nächstgelegenen Operationen / Konsultationen gefunden', 'no nearest operations / consultations found', true);
+    return;
+}
+?>
+
+

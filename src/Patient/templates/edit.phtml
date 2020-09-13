@@ -58,7 +58,8 @@ $form->prepare();
                 <span ><?=$this->lngLabel('Jahre alt', 'Years old')?></span>
             </div>
             <div class="float-left" id="patient-photo-div">
-                <?=$this->formElement($form->get('image'))?>
+                <img class="img-thumbnail patient-photo"
+                       src="<?=$this->photo?>">
             </div>
             <img alt="qrcode" id="" class="d-none d-sm-block"
                  src="data:image;base64,<?= base64_encode($this->qrcode); ?>"

@@ -37,7 +37,7 @@ use Psr\Container\ContainerInterface;
  * );
  */
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
-    $app->get('/', App\Handler\HomeHandler::class, 'home');
+    $app->get('/', App\Handler\CalendarHandler::class, 'home');
     //$app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
     //$app->get('/doctrine', \App\Handler\DoctrineHandler::class, 'doctrine.test');
 
@@ -101,6 +101,11 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         '/patient-photo/{id}',
         \Patient\Handler\SavePhotoHandler::class,
         'patient-photo.save'
+    );
+    $app->get(
+        '/patient-photo/{id}',
+        \Patient\Handler\ViewPhotoHandler::class,
+        'patient-photo.get'
     );
     $app->get(
         '/image/{id}',
