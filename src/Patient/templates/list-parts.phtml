@@ -5,13 +5,15 @@ foreach ($this->items as $item): ?>
     <tr data-id="<?=$item->getPatientId(); ?>" >
         <td>
             <div class="img-thumbnail photo-small">
-                <?php if ($item->getImage()): ?>
-                    <img
-                         src="data:image;base64,<?= base64_encode(stream_get_contents($item->getImage())); ?>"
-                         style="height: 60px;">
-                <?php else: ?>
-                    <img src="/img/first.png" style="width: 100%">
-                <?php endif; ?>
+                <a href="<?= $address_edit ?>">
+                    <?php if ($item->getImage()): ?>
+                        <img
+                                src="data:image;base64,<?= base64_encode(stream_get_contents($item->getImage())); ?>"
+                                style="height: 60px;">
+                    <?php else: ?>
+                        <img src="/img/first.png" style="width: 100%">
+                    <?php endif; ?>
+                </a>
             </div>
         </td>
         <td>
