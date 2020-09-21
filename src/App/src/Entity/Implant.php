@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Implant
  *
- * @ORM\Table(name="implant", indexes={@ORM\Index(name="implant_spine_spine_id_fk", columns={"spine_id"}), @ORM\Index(name="implant_manufacturer_manufacturer_id_fk", columns={"manufacturer_id"})})
+ * @ORM\Table(name="implant", indexes={@ORM\Index(name="implant_kind_kind_id_fk", columns={"kind_id"}), @ORM\Index(name="implant_spine_spine_id_fk", columns={"spine_id"}), @ORM\Index(name="implant_manufacturer_manufacturer_id_fk", columns={"manufacturer_id"})})
  * @ORM\Entity
  */
 class Implant
@@ -29,9 +29,9 @@ class Implant
     private $implantSystem;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="implant_name", type="string", length=1023, nullable=true)
+     * @ORM\Column(name="implant_name", type="string", length=1023, nullable=false)
      */
     private $implantName;
 
@@ -41,6 +41,16 @@ class Implant
      * @ORM\Column(name="implant_type", type="string", length=1023, nullable=true)
      */
     private $implantType;
+
+    /**
+     * @var \App\Entity\Kind
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Kind")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="kind_id", referencedColumnName="kind_id")
+     * })
+     */
+    private $kind;
 
     /**
      * @var \App\Entity\Manufacturer
@@ -101,11 +111,11 @@ class Implant
     /**
      * Set implantName.
      *
-     * @param string|null $implantName
+     * @param string $implantName
      *
      * @return Implant
      */
-    public function setImplantName($implantName = null)
+    public function setImplantName($implantName)
     {
         $this->implantName = $implantName;
 
@@ -115,7 +125,7 @@ class Implant
     /**
      * Get implantName.
      *
-     * @return string|null
+     * @return string
      */
     public function getImplantName()
     {
@@ -144,6 +154,30 @@ class Implant
     public function getImplantType()
     {
         return $this->implantType;
+    }
+
+    /**
+     * Set kind.
+     *
+     * @param \App\Entity\Kind|null $kind
+     *
+     * @return Implant
+     */
+    public function setKind(\App\Entity\Kind $kind = null)
+    {
+        $this->kind = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Get kind.
+     *
+     * @return \App\Entity\Kind|null
+     */
+    public function getKind()
+    {
+        return $this->kind;
     }
 
     /**

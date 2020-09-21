@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email_idx", columns={"email"})}, indexes={@ORM\Index(name="user_lng_lng_id_fk", columns={"lng_id"}), @ORM\Index(name="user_role_role_id_fk", columns={"role_id"})})
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email_idx", columns={"email"})}, indexes={@ORM\Index(name="user_lng_lng_id_fk", columns={"lng_id"}), @ORM\Index(name="user_surgeon_surgeon_id_fk", columns={"surgeon_id"}), @ORM\Index(name="user_role_role_id_fk", columns={"role_id"})})
  * @ORM\Entity
  */
 class User
@@ -110,6 +110,16 @@ class User
      * })
      */
     private $role;
+
+    /**
+     * @var \App\Entity\Surgeon
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Surgeon")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="surgeon_id", referencedColumnName="surgeon_id")
+     * })
+     */
+    private $surgeon;
 
 
 
@@ -409,5 +419,29 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set surgeon.
+     *
+     * @param \App\Entity\Surgeon|null $surgeon
+     *
+     * @return User
+     */
+    public function setSurgeon(\App\Entity\Surgeon $surgeon = null)
+    {
+        $this->surgeon = $surgeon;
+
+        return $this;
+    }
+
+    /**
+     * Get surgeon.
+     *
+     * @return \App\Entity\Surgeon|null
+     */
+    public function getSurgeon()
+    {
+        return $this->surgeon;
     }
 }

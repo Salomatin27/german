@@ -7,7 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OperationImplant
  *
- * @ORM\Table(name="operation_implant", indexes={@ORM\Index(name="oi_operation_operation_id_fk", columns={"operation_id"}), @ORM\Index(name="oi_implant_implant_id_fk", columns={"implant_id"})})
+ * @ORM\Table(name="operation_implant", indexes={
+ *     @ORM\Index(name="oi_fixation_fixation_id_fk", columns={"fixation_id"}),
+ *     @ORM\Index(name="oi_implant_implant_id_fk", columns={"implant_id"}),
+ *     @ORM\Index(name="oi_operation_operation_id_fk", columns={"operation_id"})})
  * @ORM\Entity
  */
 class OperationImplant
@@ -22,11 +25,28 @@ class OperationImplant
     private $operationImplantId;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="code", type="string", length=1023, nullable=false)
+     * @ORM\Column(name="implant_size", type="string", length=50, nullable=true, options={"comment"="размер импланта"})
      */
-    private $code;
+    private $implantSize;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="remarks", type="text", length=16777215, nullable=true)
+     */
+    private $remarks;
+
+    /**
+     * @var \App\Entity\Fixation
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Fixation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fixation_id", referencedColumnName="fixation_id")
+     * })
+     */
+    private $fixation;
 
     /**
      * @var \App\Entity\Implant
@@ -41,7 +61,7 @@ class OperationImplant
     /**
      * @var \App\Entity\Operation
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operation")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operation", inversedBy="operationImplant")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="operation_id", referencedColumnName="operation_id")
      * })
@@ -61,27 +81,75 @@ class OperationImplant
     }
 
     /**
-     * Set code.
+     * Set implantSize.
      *
-     * @param string $code
+     * @param string|null $implantSize
      *
      * @return OperationImplant
      */
-    public function setCode($code)
+    public function setImplantSize($implantSize = null)
     {
-        $this->code = $code;
+        $this->implantSize = $implantSize;
 
         return $this;
     }
 
     /**
-     * Get code.
+     * Get implantSize.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCode()
+    public function getImplantSize()
     {
-        return $this->code;
+        return $this->implantSize;
+    }
+
+    /**
+     * Set remarks.
+     *
+     * @param string|null $remarks
+     *
+     * @return OperationImplant
+     */
+    public function setRemarks($remarks = null)
+    {
+        $this->remarks = $remarks;
+
+        return $this;
+    }
+
+    /**
+     * Get remarks.
+     *
+     * @return string|null
+     */
+    public function getRemarks()
+    {
+        return $this->remarks;
+    }
+
+    /**
+     * Set fixation.
+     *
+     * @param \App\Entity\Fixation|null $fixation
+     *
+     * @return OperationImplant
+     */
+    public function setFixation(\App\Entity\Fixation $fixation = null)
+    {
+        $this->fixation = $fixation;
+
+        return $this;
+    }
+
+    /**
+     * Get fixation.
+     *
+     * @return \App\Entity\Fixation|null
+     */
+    public function getFixation()
+    {
+        return $this->fixation;
     }
 
     /**
