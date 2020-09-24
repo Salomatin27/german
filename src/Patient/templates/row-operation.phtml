@@ -7,6 +7,7 @@ if (!$operation) {
         'operationId' => null,
         'surgeonId' => null,
         'clinicId' => null,
+        'kindId' => null,
         'date' => null,
         'remarks' => null,
         'caseNumber' => null,
@@ -22,6 +23,7 @@ $labels = [
     'patientWeight' => $this->lngLabel('Patientengewicht', 'patient weight'),
     'surgeon'       => $this->lngLabel('Operateur', 'surgeon'),
     'clinic'        => $this->lngLabel('Klinik', 'clinic'),
+    'kind'          => $this->lngLabel('Typ', 'type'),
 ];
 
 $date = $operation['date'] ? date_create($operation['date'])->format('d-m-Y') : '...';
@@ -69,6 +71,37 @@ $remove_text2 = 'delete operation ' . $date;
 
             </div>
             <div class="col-md-5">
+                <label class=" text-sm-left"><small><?=$labels['kind']?></small></label>
+                <select style="box-sizing: border-box !important;" class="selectpicker"
+                        name="operation[<?=$operation['operationId']?>][kind]"
+                        id="operation[<?=$operation['operationId']?>][kind]"
+                        data-db="kind"
+                        data-width="100%"
+                        data-style="btn-primary"
+                        data-live-search="true"
+                        title="..."
+                >
+                    <?php
+                    foreach ($this->kinds as $kind):
+                        $selected =
+                            intval($operation['kindId']) === $kind->getKindId() ? 'selected' : '';
+                        echo '<option ' . $selected . ' class="form-control form-control-sm" '
+                            . 'data-id="' . $kind->getKindId()
+                            . '" data-name="' . $kind->getOperationKind()
+                            . '" value="' . $kind->getKindId() . '">'
+                            . $kind->getOperationKind() . '</option>';
+                    endforeach;
+                    ?>
+                </select>
+
+            </div>
+            <div class="col-md-2">
+                <a style="margin-top: 2rem" href="javascript:void(0)" onclick="reference('kind', this)" class="btn btn-secondary">
+                    <i class="fas fa-pen"></i> <?=$this->lngLabel('Typen', 'types')?>
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-5 offset-md-5">
                 <label class=" text-sm-left"><small><?=$labels['surgeon']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
                         name="operation[<?=$operation['operationId']?>][surgeon]"

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Patient\Service;
 
 use App\Entity\Clinic;
+use App\Entity\Kind;
 use App\Entity\Operation;
 use App\Entity\Patient;
 use App\Entity\Surgeon;
@@ -199,8 +200,10 @@ class PatientService
         $error = null;
         $output = null;
         try {
+            $kind = $this->getAllKinds()[0];
             $item = new Operation();
             $item->setPatient($patient);
+            $item->setKind($kind);
             $this->entityManager->persist($item);
             $this->entityManager->flush($item);
             $hydrator = new DoctrineObject($this->entityManager);
@@ -241,10 +244,15 @@ class PatientService
     {
         switch ($item) {
             case 'surgeon':
-                $data = $this->entityManager->getRepository(Surgeon::class)->findAll();
+                $data = $this->getAllSurgeons();
+                //$data = $this->entityManager->getRepository(Surgeon::class)->findAll();
                 break;
             case 'clinic':
-                $data = $this->entityManager->getRepository(Clinic::class)->findAll();
+                $data = $this->getAllClinics();
+                //$data = $this->entityManager->getRepository(Clinic::class)->findAll();
+                break;
+            case 'kind' :
+                $data = $this->getAllKinds();
                 break;
             default:
                 $data = null;
@@ -270,6 +278,25 @@ class PatientService
         $this->entityManager->flush($surgeon);
 
         return $surgeon;
+    }
+
+    public function setKind(?array $data)
+    {
+        $id = $data['id'];
+        if ($id === '0') {
+            $kind = new Kind();
+        } else {
+            $kind = $this->entityManager->getRepository(Kind::class)->find($id);
+        }
+
+        $kind->setOperationKind($data['name'] ?? '*');
+
+        if ($id === '0') {
+            $this->entityManager->persist($kind);
+        }
+        $this->entityManager->flush($kind);
+
+        return $kind;
     }
 
     public function setClinic(?array $data)
@@ -301,6 +328,9 @@ class PatientService
             case 'clinic':
                 $entity = $this->entityManager->getRepository('App\Entity\Clinic')->find($id);
                 break;
+            case 'kind':
+                $entity = $this->entityManager->getRepository('App\Entity\Kind')->find($id);
+                break;
             default:
                 $entity = null;
         }
@@ -315,6 +345,11 @@ class PatientService
         }
 
         return 'deleted';
+    }
+
+    public function getAllKinds()
+    {
+        return $this->entityManager->getRepository(Kind::class)->findAll();
     }
 
     private function updateClinic($data)
@@ -375,9 +410,11 @@ class PatientService
             . 'operation.remarks, '
             . 'operation.case_number as caseNumber, '
             . 'operation.patient_height as patientHeight, '
-            . 'operation.patient_weight as patientWeight '
+            . 'operation.patient_weight as patientWeight, '
+            . 'operation.kind_id as kindId, kind.operation_kind as operationKind '
             . 'from operation left join surgeon on surgeon.surgeon_id=operation.surgeon_id '
             . 'left join clinic on clinic.clinic_id=operation.clinic_id '
+            . 'inner join kind on kind.kind_id=operation.kind_id '
             . 'where operation.patient_id=:id';
 
         $query=$this->entityManager->getConnection()->prepare($sql);

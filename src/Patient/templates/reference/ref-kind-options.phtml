@@ -1,0 +1,26 @@
+<?php
+
+$items=$this->items;
+/** @var \App\Entity\Kind $item */
+$item=null;
+
+?>
+
+<option value="">...</option>
+<?php foreach ($items as $item): ?>
+
+    <?php
+    $id = $item->getKindId();
+    $name = $this->escapeHtml($item->getOperationKind());
+    $label = $name;
+    ?>
+
+    <option
+            class="form-control"
+            value="<?=$id?>"
+            data-id="<?=$id?>"
+            data-name="<?=$name?>">
+        <?=$label?>
+    </option>
+
+<?php endforeach; ?>

@@ -1,19 +1,18 @@
 <?php
-/** @var \App\Entity\Surgeon[] $items */
+/** @var \App\Entity\Kind[] $items */
 $items = $this->items;
 
 ?>
 
 <div class="h3">
-    Reference <span class="small">surgeons</span>
+    Reference <span class="small">operation typen</span>
 </div>
 <span class="text-info"><?=$this->lngLabel('Um zu suchen, geben Sie 3 Zeichen ein', 'to search enter 3 characters')?></span>
-
 <div class="row">
     <div class="col-sm-3">
         <a class="btn btn-primary" href="javascript:void(0);" onclick="editReference(event)"
            data-id="0"
-           data-ref="surgeon" data-name="" data-address="">
+           data-ref="kind" data-name="" data-address="">
             <i class="fa fa-plus" aria-hidden="true"></i> <?=$this->lngLabel('Schaffen', 'create', true)?>
         </a>
     </div>
@@ -21,7 +20,7 @@ $items = $this->items;
         <input type="text" class="form-control" placeholder="filter" onkeyup="find(this)">
     </div>
     <div class="col-sm-3 pull-right">
-        <a href="javascript:void(0)" class="btn btn-secondary float-right" onclick="closeReference('surgeon')">
+        <a href="javascript:void(0)" class="btn btn-secondary float-right" onclick="closeReference('kind')">
             <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngLabel('Schließen', 'close', true)?>
         </a>
     </div>
@@ -41,7 +40,7 @@ $items = $this->items;
         <?php foreach ($items as $item): ?>
 
             <?php
-            echo $this->partial('reference::view-surgeon', ['item'=>$item]);
+            echo $this->partial('reference::view-kind', ['item'=>$item]);
             ?>
 
         <?php endforeach; ?>

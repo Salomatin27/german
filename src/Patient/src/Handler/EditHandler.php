@@ -97,10 +97,12 @@ class EditHandler implements RequestHandlerInterface
             $operations = $prg['operation'] ?? null;
             $surgeons = $prg['surgeons'] ?? null;
             $clinics = $prg['clinics'] ?? null;
+            $kinds = $prg['kinds'] ?? null;
         } else {
             $operations = $this->service->getOperationsByPatient($patient);
             $surgeons = $this->service->getAllSurgeons();
             $clinics = $this->service->getAllClinics();
+            $kinds = $this->service->getAllKinds();
         }
 
         $token   = $guard->generateToken('patient_' . $patient_id);
@@ -129,6 +131,7 @@ class EditHandler implements RequestHandlerInterface
                 'clinics'      => $clinics,
                 'form_photo'   => $form_photo,
                 'photo'        => $photo,
+                'kinds'        => $kinds,
             ]
         ));
     }

@@ -50,6 +50,7 @@ class CreateOperationHandler implements RequestHandlerInterface
         $operation = $result->operation;
         $surgeons = $this->service->getAllSurgeons();
         $clinics = $this->service->getAllClinics();
+        $kinds = $this->service->getAllKinds();
 
         return new HtmlResponse($this->template->render('patient::row-operation', [
             'operation'  => $operation,
@@ -57,6 +58,7 @@ class CreateOperationHandler implements RequestHandlerInterface
             'layout'     => false,
             'surgeons'   => $surgeons,
             'clinics'    => $clinics,
+            'kinds'      => $kinds,
             'object_num' => 'new',
         ]));
     }

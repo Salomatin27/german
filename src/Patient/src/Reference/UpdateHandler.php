@@ -30,16 +30,15 @@ class UpdateHandler implements RequestHandlerInterface
         //$ref = $data['keyword'];
         if ($ref === 'surgeon') {
             $data = $this->service->setSurgeon($data);
+            $html = 'reference::view-surgeon';
         } elseif ($ref === 'clinic') {
             $data = $this->service->setClinic($data);
+            $html = 'reference::view-clinic';
+        } elseif ($ref === 'kind') {
+            $data = $this->service->setKind($data);
+            $html = 'reference::view-kind';
         } else {
             return new EmptyResponse();
-        }
-
-        if ($ref === 'surgeon') {
-            $html = 'reference::view-surgeon';
-        } else {
-            $html = 'reference::view-clinic';
         }
 
         return new HtmlResponse($this->template->render($html, ['layout'=>false, 'item'=>$data]));

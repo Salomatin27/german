@@ -7,6 +7,7 @@ $items = $this->items;
 <div class="h3">
     Reference <span class="small">clinics</span>
 </div>
+<span class="text-info"><?=$this->lngLabel('Um zu suchen, geben Sie 3 Zeichen ein', 'to search enter 3 characters')?></span>
 
 <div class="row">
     <div class="col-sm-3">
@@ -18,7 +19,7 @@ $items = $this->items;
     </div>
     <div class="col-sm-6">
         <input type="text" class="form-control"
-               placeholder="фильтр (введите 3 символа)"
+               placeholder="filter"
                onkeyup="find(this)">
     </div>
     <div class="col-sm-3 pull-right">
@@ -36,7 +37,7 @@ $items = $this->items;
         <div class="list-group-item-heading">
             <div class="row">
                 <div class="col-sm-6">
-                    Имя/Наименование
+                    <?=$this->lngLabel('Name / Bezeichnung', 'Name / Designation')?>>
                 </div>
             </div>
         </div>
