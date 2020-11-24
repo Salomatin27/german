@@ -1,0 +1,168 @@
+<?php /** @var \App\Entity\OperationImplant $item */
+$item = $this->item;
+$remove_text1 = 'Löschen Sie dieses Implantat für die Operation';
+$remove_text2 = 'delete this implant for operation';
+$this->headLink()
+    ->prependStylesheet("https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css");
+$this->inlineScript()->prependFile('/js/operation-implant.js');
+$this->inlineScript()
+    ->prependFile("https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js");
+$this->inlineScript()->prependFile('/js/reference.js');
+$this->inlineScript()->prependFile('/js/base.js');
+$this->inlineScript()->prependFile('/js/remove-window.js');
+?>
+
+<div id="reference"></div>
+<div id="patient">
+
+    <div class="h3">
+        <?=$this->lngLabel('Implantat begradigen', 'implant edit')?>
+    </div>
+    <hr>
+
+
+    <form method="post" action="<?= $this->url('operation-implant.edit', ['id' => $item->getOperationImplantId()]); ?>">
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngButton('Schließen', 'close', true)?>
+                </button>
+            </div>
+        </div>
+        <br>
+
+        <div class="text-info">
+            <?=$this->lngLabel('Um ein Implantat oder eine Fixierung auszuwählen, wählen Sie zuerst den Hersteller aus. Die Wahl hängt auch von der Art der Operation ab',
+                'To select an implant or fixation, first select the manufacturer. The choice also depends on the type of operation', true)?>
+        </div>
+        <br>
+
+        <div id="data-panel">
+            <div class="row">
+                <div class="col-sm-5">
+                    <input type="hidden" name="manufacturer" value="">
+                    <input type="hidden" id="kind" name="kind" value="<?=$item->getOperation()->getKind()->getKindId()?>">
+                    <label><?=$this->lngLabel('Hersteller', 'manufacturer')?></label>
+                        <select style="box-sizing: border-box !important;" class="selectpicker"
+                                name="manufacturer"
+                                id="manufacturer"
+                                data-db="manufacturer"
+                                data-width="100%"
+                                data-style="btn-primary"
+                                data-live-search="true"
+                                title="..."
+                        >
+                            <?php
+                            $current = $item->getImplant()
+                                ? $item->getImplant()->getManufacturer()->getManufacturerId() : null;
+                            foreach ($this->manufacturers as $manufacturer):
+                                $selected =
+                                    $current === $manufacturer->getManufacturerId() ? 'selected' : '';
+                                echo '<option ' . $selected . ' class="form-control form-control-sm" '
+                                    . 'data-id="' . $manufacturer->getManufacturerId()
+                                    . '" data-name="' . $manufacturer->getManufacturerName()
+                                    . '" value="' . $manufacturer->getManufacturerId() . '">'
+                                    . $manufacturer->getManufacturerName() . '</option>';
+                            endforeach;
+                            ?>
+                        </select>
+                </div>
+                <div class="col-sm-5">
+                    <a style="margin-top: 2rem; width: inherit" href="javascript:void(0)" onclick="reference('manufacturer', this)"
+                       class="btn btn-secondary">
+                        <i class="fas fa-pen"></i> <?=$this->lngButton('Hersteller', 'manufacturer')?>
+                    </a>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-5">
+                    <input type="hidden" name="implant" value="">
+                    <label><?=$this->lngLabel('Implantieren', 'implant')?></label>
+                    <select style="box-sizing: border-box !important;" class="selectpicker"
+                            name="implant"
+                            id="implant"
+                            data-db="implant"
+                            data-width="100%"
+                            data-style="btn-primary"
+                            data-live-search="true"
+                            title="..."
+                    >
+                        <?php
+                        $current = $item->getImplant() ? $item->getImplant()->getImplantId() : null;
+                        foreach ($this->implants as $implant):
+                            $selected =
+                                $current === $implant->getImplantId() ? 'selected' : '';
+                            echo '<option ' . $selected . ' class="form-control form-control-sm" '
+                                . 'data-id="' . $implant->getImplantId()
+                                . '" data-name="' . $implant->getImplantName()
+                                . '" value="' . $implant->getImplantId() . '">'
+                                . $implant->getImplantName() . '</option>';
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <a style="margin-top: 2rem; width: inherit" href="javascript:void(0)" onclick="reference('implant', this)"
+                       class="btn btn-secondary">
+                        <i class="fas fa-pen"></i> <?=$this->lngButton('Implantieren', 'implant')?>
+                    </a>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-5">
+                    <input type="hidden" name="fixation" value="">
+                    <label><?=$this->lngLabel('Fixierung', 'fixation')?></label>
+                    <select style="box-sizing: border-box !important;" class="selectpicker"
+                            name="fixation"
+                            id="fixation"
+                            data-db="fixation"
+                            data-width="100%"
+                            data-style="btn-primary"
+                            data-live-search="true"
+                            title="..."
+                    >
+                        <?php
+                        $current = $item->getFixation() ? $item->getFixation()->getFixationId() : null;
+                        foreach ($this->fixations as $fixation):
+                            $selected =
+                                $current === $fixation->getFixationId() ? 'selected' : '';
+                            echo '<option ' . $selected . ' class="form-control form-control-sm" '
+                                . 'data-id="' . $fixation->getFixationId()
+                                . '" data-name="' . $fixation->getFixationName()
+                                . '" value="' . $fixation->getFixationId() . '">'
+                                . $fixation->getFixationName() . '</option>';
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <a style="margin-top: 2rem; width: inherit" href="javascript:void(0)" onclick="reference('fixation', this)"
+                       class="btn btn-secondary">
+                        <i class="fas fa-pen"></i> <?=$this->lngButton('Fixierung', 'fixation')?>
+                    </a>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-5">
+                    <label><?=$this->lngLabel('Implantieren Größe', 'implant size')?></label>
+                    <input type="text" name="implantSize" class="form-control form-control-sm" value="<?=$item->getImplantSize()?>">
+                </div>
+                <div class="w-100"></div>
+                <div class="col-12">
+                    <label><?=$this->lngLabel('Bemerkungen', 'remarks')?></label>
+                    <textarea rows="5" class="form-control form-control-sm" name="remarks">
+                        <?=$item->getRemarks()?>
+                    </textarea>
+                </div>
+            </div>
+
+            <hr>
+
+            <a href="javascript:void(0)" class="text-danger"
+               onclick="removeDocument('<?=$this->url('operation-implant.delete',['id' => $item->getOperationImplantId()])?>',
+                       '<?=$remove_text1?>', '<?=$remove_text2?>')">
+                <i class="fas fa-trash"></i> <?=$this->lngLabel($remove_text1, $remove_text2)?>
+            </a>
+
+
+        </div>
+    </form>
+
+</div>

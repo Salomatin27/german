@@ -47,6 +47,7 @@ class ConfigProvider
             'paths' => [
                 'patient'      => [__DIR__ . '/../templates/'],
                 'reference'    => [__DIR__ . '/../templates/reference/'],
+                'implant'      => [__DIR__ . '/../templates/implant/'],
             ],
         ];
     }

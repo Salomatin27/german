@@ -150,4 +150,27 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         \Patient\Reference\DeleteHandler::class,
         'reference.delete'
     );
+
+    // operation-implant
+    $app->post(
+        '/operation-implant-create/{id}',
+        Patient\Implant\CreateHandler::class,
+        'operation-implant.create'
+    );
+    $app->route(
+        '/operation-implant/{id}',
+        [
+            CsrfMiddleware::class,
+            PrgMiddleware::class,
+            \Patient\Implant\EditHandler::class
+        ],
+        ['GET', 'PATCH', 'POST'],
+        'operation-implant.edit'
+    );
+    $app->delete(
+        '/operation-implant/{id}',
+        \Patient\Implant\DeleteHandler::class,
+        'operation-implant.delete'
+    );
+
 };

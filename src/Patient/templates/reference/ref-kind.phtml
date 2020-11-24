@@ -7,25 +7,26 @@ $items = $this->items;
 <div class="h3">
     Reference <span class="small">operation typen</span>
 </div>
-<span class="text-info"><?=$this->lngLabel('Um zu suchen, geben Sie 3 Zeichen ein', 'to search enter 3 characters')?></span>
+<hr>
+
 <div class="row">
     <div class="col-sm-3">
-        <a class="btn btn-primary" href="javascript:void(0);" onclick="editReference(event)"
-           data-id="0"
-           data-ref="kind" data-name="" data-address="">
-            <i class="fa fa-plus" aria-hidden="true"></i> <?=$this->lngLabel('Schaffen', 'create', true)?>
+        <a href="javascript:void(0)" class="btn btn-secondary" onclick="closeReference('kind')">
+            <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngButton('Schließen', 'close', true)?>
         </a>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-9">
+        <span class="text-info"><?=$this->lngLabel('Um zu suchen, geben Sie 3 Zeichen ein', 'to search enter 3 characters')?></span>
         <input type="text" class="form-control" placeholder="filter" onkeyup="find(this)">
-    </div>
-    <div class="col-sm-3 pull-right">
-        <a href="javascript:void(0)" class="btn btn-secondary float-right" onclick="closeReference('kind')">
-            <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngLabel('Schließen', 'close', true)?>
-        </a>
     </div>
 </div>
 <br>
+
+<a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="editReference(event)"
+   data-id="0"
+   data-ref="kind" data-name="" data-address="">
+    <i class="fa fa-plus" aria-hidden="true"></i> <?=$this->lngButton('Schaffen', 'create')?>
+</a>
 
 <div id="data-panel">
     <div class="list-group">

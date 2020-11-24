@@ -1,0 +1,37 @@
+<?php
+
+/** @var \App\Entity\Implant $item */
+$item = $this->item;
+$id = $item->getImplantId();
+$name = $this->escapeHtml($item->getImplantName());
+
+$remove_text1 = 'Löschen Implantieren ' . $name;
+$remove_text2 = 'delete implant ' . $name;
+
+?>
+
+<div class="list-group-item delete-object" data-id="<?= $id ?>">
+    <div class="row">
+        <div class="col-sm-10 float-left">
+            <a href="javascript:void(0)" onclick="editReference(event)"
+               class="value-ref"
+               data-id="<?=$id?>"
+               data-name="<?=$name?>"
+               data-address=""
+               data-ref="implant"
+               data-manufacturer="<?=$item->getManufacturer()->getManufacturerId()?>"
+            >
+                <?= $name ?>
+            </a>
+        </div>
+        <div class="col-sm-2">
+            <a href="javascript:void(0)"
+               class="float-right text-danger"
+               onclick="removeDocument('<?=$this->url('reference.delete',['item' => 'implant', 'id' => $id])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)">
+                <i class="fas fa-trash"></i>
+            </a>
+
+        </div>
+
+    </div>
+</div>

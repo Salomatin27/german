@@ -74,11 +74,11 @@ $form->prepare();
             <a href="javascript:void(0)"
                onclick="removeDocument('<?=$this->url('patient.delete',['id'=>$patient->getPatientId()])?>', '<?=$remove_text1?>', '<?=$remove_text2?>')"
                class="btn btn-danger mr-1 mb-1">
-                <i class="fas fa-trash" aria-hidden="true"></i> <?=$this->lngLabel('LÖSCHEN', 'delete', true)?>
+                <i class="fas fa-trash" aria-hidden="true"></i> <?=$this->lngButton('LÖSCHEN', 'delete', true)?>
             </a>
             <button type="submit"
                     class="btn btn-success mr-1 mb-1" >
-                <i class="far fa-save" aria-hidden="true"></i> <?=$this->lngLabel('SPAREN', 'save', true)?>
+                <i class="far fa-save" aria-hidden="true"></i> <?=$this->lngButton('SPAREN', 'save', true)?>
             </button>
         </div>
     </div>
@@ -107,13 +107,50 @@ $form->prepare();
 
         <!--    operation-->
         <div class="tab-pane fade" id="_operation" role="tabpanel" aria-labelledby="operation-tab">
-            <a href="javascript:void(0)" onclick="addOperationRow()" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> </a>
+            <div class="row">
+                <div class="col-6">
+                    <a href="javascript:void(0)"
+                       onclick="addOperationRow()"
+                       class="btn btn-sm btn-success">
+                        <i class="fas fa-plus"></i> <?=$this->lngButton('Neu betrieb', 'new operation')?>
+                    </a>
+
+                </div>
+<!--                <div class="col-6">-->
+<!--                    <label class=" text-sm-left"><small>--><?//=$this->lngLabel('Operation auswählen', 'select operation')?><!--</small></label>-->
+<!--                    <select style="box-sizing: border-box !important;" class="selectpicker"-->
+<!--                            name="operation_id"-->
+<!--                            id="operation_id"-->
+<!--                            data-db="operation"-->
+<!--                            data-width="100%"-->
+<!--                            data-style="btn-primary"-->
+<!--                            data-live-search="true"-->
+<!--                            title="..."-->
+<!--                    >-->
+<!--                        --><?php
+//                        $current = $operations ? $operations[0]->getOperationId() : null;
+//                        foreach ($this->operations as $operation):
+//                            $selected =
+//                                $current === $operation->getOperationId() ? 'selected' : '';
+//                            echo '<option ' . $selected . ' class="form-control form-control-sm" '
+//                                . 'data-id="' . $operation->getOperationId()
+//                                . '" data-name="' . $operation->getKind()->getOperationKind()
+//                                . '" value="' . $operation->getOperationId() . '">'
+//                                . $operation->getKind()->getOperationKind() . ' '
+//                                . ($operation->getDate() ? $operation->getDate()->format('d-m-Y H:i') : '...')
+//                                . '</option>';
+//                        endforeach;
+//                        ?>
+<!--                    </select>-->
+<!---->
+<!--                </div>-->
+            </div>
             <div class=""> <!-- table-responsive table-responsive-sm -->
                 <table  class="table table-sm table-bordered table-striped">
                     <thead class="thead">
                     <th scope="col"><?=$this->lngLabel('Liste der Operationen', 'list of operations')?></th>
                     </thead>
-                    <tbody>
+                    <tbody id="_operation_tbody">
                     <?php if (is_array($operations)):?>
                         <?php $object_num = 0?>
                         <?php foreach ($operations as $operation):?>
@@ -132,7 +169,6 @@ $form->prepare();
                     </tbody>
                 </table>
             </div>
-            <a href="javascript:void(0)" onclick="addOperationRow()" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i></a>
         </div>
 
         <!--    history-->

@@ -1,0 +1,27 @@
+<?php
+
+$items=$this->items;
+/** @var \App\Entity\Fixation $item */
+$item=null;
+
+?>
+
+<option value="">...</option>
+<?php foreach ($items as $item): ?>
+
+    <?php
+    $id = $item->getFixationId();
+    $name = $this->escapeHtml($item->getFixationName());
+    $label = $name . ' ';
+    ?>
+
+    <option
+            class="form-control"
+            value="<?=$id?>"
+            data-id="<?=$id?>"
+            data-name="<?=$name?>"
+            data-address="">
+        <?=$label?>
+    </option>
+
+<?php endforeach; ?>

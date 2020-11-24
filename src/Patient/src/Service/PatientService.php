@@ -4,15 +4,21 @@ declare(strict_types=1);
 namespace Patient\Service;
 
 use App\Entity\Clinic;
+use App\Entity\Fixation;
+use App\Entity\Implant;
 use App\Entity\Kind;
+use App\Entity\Manufacturer;
 use App\Entity\Operation;
+use App\Entity\OperationImplant;
 use App\Entity\Patient;
 use App\Entity\Surgeon;
 use Doctrine\Common\Util\Debug;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\Laminas\Hydrator\DoctrineObject;
 use Doctrine\ORM\EntityManager;
+use Patient\Form\OperationImplantForm;
 use Patient\Form\PatientForm;
+use phpDocumentor\Reflection\Types\Object_;
 
 class PatientService
 {
@@ -54,10 +60,12 @@ class PatientService
             $page = 0;
         }
         if ($keyword) {
-            $dql = 'SELECT p FROM \App\Entity\Patient p '
-                . 'WHERE p.firstName LIKE :keyword OR p.surname LIKE :keyword';
+            $dql = 'SELECT p FROM \App\Entity\Patient p join \App\Entity\Operation o '
+                . 'WHERE p.firstName LIKE :keyword OR p.surname LIKE :keyword '
+                . 'order by p.patientId desc';
         } else {
-            $dql = 'SELECT p FROM \App\Entity\Patient p ';
+            $dql = 'SELECT p FROM \App\Entity\Patient p join \App\Entity\Operation o '
+                . 'order by p.patientId desc';
         }
         $query = $this->entityManager->createQuery($dql)
             ->setFirstResult($page)->setMaxResults(100);
@@ -65,8 +73,7 @@ class PatientService
             $query->setParameter('keyword', $keyword);
         }
         $query->execute();
-        $result=$query->getResult();
-        return $result;
+        return $query->getResult();
     }
 
     public function createPatient($identity) : \StdClass
@@ -206,8 +213,9 @@ class PatientService
             $item->setKind($kind);
             $this->entityManager->persist($item);
             $this->entityManager->flush($item);
-            $hydrator = new DoctrineObject($this->entityManager);
-            $output = $hydrator->extract($item);
+//            $hydrator = new DoctrineObject($this->entityManager);
+//            $output = $hydrator->extract($item);
+            $output = $item;
         } catch (\Exception $exception) {
             $error = $exception->getMessage();
         }
@@ -215,33 +223,41 @@ class PatientService
         return (object)['operation'=>$output, 'error'=>$error];
     }
 
-    public function removeOperation($id) : string
+    public function removeOperation($id) : \stdClass
     {
         $this->entityManager->clear();
-        $message = 'deleted';
+        $error = null;
         /** @var Patient $patient */
         $operation = $this->entityManager->getRepository(Operation::class)
             ->find($id);
         if (!$operation) {
-            $message = 'No operation found to delete / Kein Operation zum Löschen gefunden';
+            $error = 'Kein Operation zum Löschen gefunden (No operation found to delete) ';
         } else {
             try {
                 $this->entityManager->remove($operation);
                 $this->entityManager->flush($operation);
             } catch (\Exception $exception) {
-                $message = $exception->getMessage();
+                $error = $exception->getMessage();
             }
         }
 
-        return $message;
+        return (object)['error' => $error];
     }
 
     /** Get Reference
      * @param string $item
-     * @return array|null */
+     * @param Manufacturer|null $manufacturer
+     * @param Kind|null $kind
+     * @return array|null
+     */
 
-    public function getReference($item)
+    public function getReference(string $item, Manufacturer $manufacturer = null, Kind $kind = null)
     {
+//        $manufacturer = null;
+//        if ($manufacturer_id) {
+//            $manufacturer = $this->entityManager->getRepository(Manufacturer::class)
+//                ->find($manufacturer_id);
+//        }
         switch ($item) {
             case 'surgeon':
                 $data = $this->getAllSurgeons();
@@ -251,8 +267,17 @@ class PatientService
                 $data = $this->getAllClinics();
                 //$data = $this->entityManager->getRepository(Clinic::class)->findAll();
                 break;
-            case 'kind' :
+            case 'kind':
                 $data = $this->getAllKinds();
+                break;
+            case 'manufacturer':
+                $data = $this->getAllManufacturers();
+                break;
+            case 'implant':
+                $data = $this->getImplantsByManufacturerKind($manufacturer, $kind);
+                break;
+            case 'fixation':
+                $data = $this->getFixationsByManufacturerKind($manufacturer, $kind);
                 break;
             default:
                 $data = null;
@@ -319,8 +344,10 @@ class PatientService
         return $clinic;
     }
 
-    public function removeReference($id, $item)
+    public function removeReference($id, $item) : \stdClass
     {
+        $this->entityManager->clear();
+        $error = null;
         switch ($item) {
             case 'surgeon':
                 $entity = $this->entityManager->getRepository('App\Entity\Surgeon')->find($id);
@@ -331,25 +358,222 @@ class PatientService
             case 'kind':
                 $entity = $this->entityManager->getRepository('App\Entity\Kind')->find($id);
                 break;
+            case 'manufacturer':
+                $entity = $this->entityManager->getRepository('App\Entity\Manufacturer')->find($id);
+                break;
+            case 'implant':
+                $entity = $this->entityManager->getRepository('App\Entity\Implant')->find($id);
+                break;
+            case 'fixation':
+                $entity = $this->entityManager->getRepository('App\Entity\Fixation')->find($id);
+                break;
             default:
                 $entity = null;
         }
         if (!$entity) {
-            return 'invalid reference or not found';
+            $error = 'invalid reference or not found';
         }
         try {
             $this->entityManager->remove($entity);
             $this->entityManager->flush($entity);
         } catch (\Exception $exception) {
-            return $exception->getMessage();
+            $error =  $exception->getMessage();
         }
 
-        return 'deleted';
+        return (object)['error' => $error];
     }
 
     public function getAllKinds()
     {
         return $this->entityManager->getRepository(Kind::class)->findAll();
+    }
+
+    public function createOperationImplant($identity, $operation_id) : \stdClass
+    {
+        $error = null;
+        $output = null;
+        /** @var Operation $operation */
+        $operation = $this->entityManager->getRepository(Operation::class)
+            ->find($operation_id);
+        if (!$operation) {
+            $error = '';
+            return (object)['operation'=>null, 'error'=>$error, 'redirect'=>'/patients', 'operation_implant_id'=>null];
+        }
+        $patient = $operation->getPatient();
+        if (!$patient) {
+            $error = '';
+            return (object)['operation'=>null, 'error'=>$error, 'redirect'=>'/patients', 'operation_implant_id'=>null];
+        }
+
+        $operation_implant_id = null;
+        try {
+            $manufacturer = $this->getAllManufacturers()[0];
+            if (!$manufacturer) {
+                $manufacturer = $this->createEmptyManufacturer();
+            }
+            $implant = $this->getImplantsByManufacturer($manufacturer)[0];
+            $fixation = $this->getFixationsByManufacturer($manufacturer)[0];
+            $item = new OperationImplant();
+            $item->setOperation($operation);
+            $item->setImplant($implant);
+            $item->setFixation($fixation);
+            $this->entityManager->persist($item);
+            $this->entityManager->flush($item);
+//            $hydrator = new DoctrineObject($this->entityManager);
+//            $output = $hydrator->extract($item);
+            $operation_implant_id = $item->getOperationImplantId();
+        } catch (\Exception $exception) {
+            $error = $exception->getMessage();
+        }
+
+        return (object)[
+            'operation'=>$item,
+            'error'=>$error,
+            'redirect'=>'/patient/' . $patient->getPatientId(),
+            'operation_implant_id'=>$operation_implant_id
+        ];
+    }
+
+    public function getOperationImplant($operation_implant_id)
+    {
+        /** @var OperationImplant $item */
+        $item = $this->entityManager->getRepository(OperationImplant::class)->find($operation_implant_id);
+        return $item;
+    }
+
+    public function initOperationImplantForm(OperationImplant $entity, \Mezzio\Csrf\SessionCsrfGuard $guard)
+    {
+        $form = new OperationImplantForm($this->entityManager, $entity, $guard);
+        return $form;
+    }
+
+    public function setOperationImplant(OperationImplant $entity, array $data, $identity) : \stdClass
+    {
+        $error = null;
+        $hydrator = new DoctrineObject($this->entityManager);
+        $operation_implant = $hydrator->hydrate($data, $entity);
+        try {
+            $this->entityManager->flush($operation_implant);
+        } catch (\Exception $exception) {
+            $error = $exception->getMessage();
+        }
+        return (object)['operation_implant'=>$operation_implant, 'error'=>$error];
+    }
+
+    public function createEmptyManufacturer() : Manufacturer
+    {
+        $item = new Manufacturer();
+        $item->setManufacturerName('<empty>');
+        $this->entityManager->persist($item);
+        $this->entityManager->flush($item);
+        return $item;
+    }
+
+    public function removeOperationImplant($operation_implant, $identity) : \stdClass
+    {
+        //$this->entityManager->clear();
+        $error = null;
+        try {
+            $this->entityManager->remove($operation_implant);
+            $this->entityManager->flush($operation_implant);
+        } catch (\Exception $exception) {
+            $error = $exception->getMessage();
+        }
+
+        return (object)['error' => $error];
+    }
+
+    public function setManufacturer(?array $data)
+    {
+        $id = $data['id'];
+        if ($id === '0') {
+            $manufacturer = new Manufacturer();
+        } else {
+            $manufacturer = $this->entityManager->getRepository(Manufacturer::class)->find($id);
+        }
+
+        $manufacturer->setManufacturerName($data['name'] ?? '*');
+
+        if ($id === '0') {
+            $this->entityManager->persist($manufacturer);
+        }
+        $this->entityManager->flush($manufacturer);
+
+        return $manufacturer;
+    }
+
+    public function setImplant(?array $data)
+    {
+        $id = $data['id'];
+        if ($id === '0') {
+            $implant = new Implant();
+        } else {
+            $implant = $this->entityManager->getRepository(Implant::class)->find($id);
+        }
+
+        $implant->setImplantName($data['name'] ?? '*');
+        $manufacturer_id = $data['manufacturer_id'] ?? 0;
+        $manufacturer = $this->getManufacturerById($manufacturer_id);
+        $kind_id = $data['kind_id'] ?? 0;
+        $kind = $this->getKindById($kind_id);
+        $implant->setManufacturer($manufacturer);
+        $implant->setKind($kind);
+
+        if ($id === '0') {
+            $this->entityManager->persist($implant);
+        }
+        $this->entityManager->flush($implant);
+
+        return $implant;
+    }
+
+    public function getManufacturerById($id) :Manufacturer
+    {
+        /** @var Manufacturer $manufacturer */
+        $manufacturer = $this->entityManager->getRepository(Manufacturer::class)
+            ->find($id);
+        if (!$manufacturer) {
+            throw new \Exception('Hersteller nicht gefunden');
+        }
+
+        return $manufacturer;
+    }
+
+    public function setFixation(?array $data)
+    {
+        $id = $data['id'];
+        if ($id === '0') {
+            $fixation = new Fixation();
+        } else {
+            $fixation = $this->entityManager->getRepository(Fixation::class)->find($id);
+        }
+
+        $fixation->setFixationName($data['name'] ?? '*');
+        $manufacturer_id = $data['manufacturer_id'] ?? 0;
+        $manufacturer = $this->getManufacturerById($manufacturer_id);
+        $kind_id = $data['kind_id'] ?? 0;
+        $kind = $this->getKindById($kind_id);
+        $fixation->setManufacturer($manufacturer);
+        $fixation->setKind($kind);
+
+        if ($id === '0') {
+            $this->entityManager->persist($fixation);
+        }
+        $this->entityManager->flush($fixation);
+
+        return $fixation;
+    }
+
+    public function getKindById($id) : Kind
+    {
+        /** @var Kind $kind */
+        $kind = $this->entityManager->getRepository(Kind::class)
+            ->find($id);
+        if (!$kind) {
+            throw new \Exception('Typ nicht gefunden');
+        }
+
+        return $kind;
     }
 
     private function updateClinic($data)
@@ -400,7 +624,7 @@ class PatientService
         return $surgeon;
     }
 
-    public function getOperationsByPatient(Patient $patient)
+    public function getOperationsByPatientOld(Patient $patient)
     {
         $sql = 'select surgeon.surgeon_name as surgeonName,clinic.clinic_name as clinicName,'
             . 'clinic.clinic_address as clinicAddress,'
@@ -421,5 +645,29 @@ class PatientService
         $query->bindValue('id', $patient->getPatientId());
         $query->execute();
         return $query->fetchAll();
+    }
+
+    public function getOperationsByPatient(Patient $patient) : array
+    {
+        $operations = $this->entityManager->getRepository(Operation::class)
+            ->findBy(['patient' => $patient], ['date' => 'desc']);
+        return $operations;
+    }
+
+    public function getAllManufacturers()
+    {
+        return $this->entityManager->getRepository(Manufacturer::class)->findAll();
+    }
+
+    public function getImplantsByManufacturerKind(Manufacturer $manufacturer, Kind $kind)
+    {
+        return $this->entityManager->getRepository(Implant::class)
+            ->findBy(['manufacturer'=>$manufacturer, 'kind' => $kind], ['implantName'=>'asc']);
+    }
+
+    public function getFixationsByManufacturerKind(Manufacturer $manufacturer, Kind $kind)
+    {
+        return $this->entityManager->getRepository(Fixation::class)
+            ->findBy(['manufacturer'=>$manufacturer, 'kind' => $kind], ['fixationName'=>'asc']);
     }
 }

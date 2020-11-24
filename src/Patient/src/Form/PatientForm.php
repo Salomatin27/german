@@ -230,7 +230,7 @@ class PatientForm extends Form implements InputFilterProviderInterface
                                     ->validateToken($value, 'patient_' . $this->patient->getPatientId());
                             },
                             'messages' => [
-                                'callbackValue' => 'Форма подтверждена не с оригинального сайта',
+                                'callbackValue' => 'Formular nicht von der ursprünglichen Website überprüft',
                             ],
                         ],
                     ],

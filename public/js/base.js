@@ -90,12 +90,12 @@ function messageBox(message, is_success)
     if (is_success) {
         card = $('<div class="alert alert-dismissible alert-success" style="position: fixed; top: 11rem;right: 3rem;z-index: 1200">\n' +
             '  <button type="button" class="close" data-dismiss="alert">&times;</button>\n' +
-            '  <strong>Durchgeführt (Performed) </strong> '+message+'\n' +
+            '  <strong>Durchgeführt (Performed): </strong> '+message+'\n' +
             '</div>');
     } else {
         card = $('<div class="alert alert-dismissible alert-warning" style="position: fixed; top: 11rem;right: 3rem;z-index: 1200">\n' +
             '  <button type="button" class="close" data-dismiss="alert">&times;</button>\n' +
-            '  <strong>Problem </strong> '+message+'\n' +
+            '  <strong>Problem: </strong> '+message+'\n' +
             '</div>');
     }
     $('body').prepend(card);

@@ -5,19 +5,22 @@ $sub_link = '/image/';
 $this->form->prepare();
 ?>
 <br>
-<fieldset>
-    <legend>Foto <span class="english-label">photo</span> </legend>
-    <?= $this->form()->openTag($this->form); ?>
+<hr/>
+<div class="row">
+    <div class="col-12">
+        <div class="h5"><?=$this->lngLabel('Foto', 'photo')?></div>
+        <?= $this->form()->openTag($this->form); ?>
 
-    <div class="form-group">
-        <?= $this->formElement($this->form->get('file')); ?>
-        <a href="#" class="fileSelect btn btn-sm btn-secondary">Select file</a>
-        <?= $this->formElementErrors($this->form->get('file')); ?>
+        <div class="form-group">
+            <?= $this->formElement($this->form->get('file')); ?>
+            <a href="#" class="fileSelect btn btn-sm btn-secondary">Select file</a>
+            <?= $this->formElementErrors($this->form->get('file')); ?>
+        </div>
+
     </div>
 
-    <?= $this->form()->closeTag(); ?>
-</fieldset>
-<hr/>
+</div>
+<?= $this->form()->closeTag(); ?>
 
 
 <div class="row">
@@ -26,7 +29,7 @@ $this->form->prepare();
         <?php if(count($images)==0): ?>
 
             <p>
-                <i>Нет изображений для отображения.</i>
+                <i><?=$this->lngLabel('Keine Bilder zum Anzeigen', 'no images to display')?></i>
             </p>
 
         <?php else: ?>

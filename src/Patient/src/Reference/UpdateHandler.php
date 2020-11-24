@@ -37,6 +37,15 @@ class UpdateHandler implements RequestHandlerInterface
         } elseif ($ref === 'kind') {
             $data = $this->service->setKind($data);
             $html = 'reference::view-kind';
+        } elseif ($ref === 'manufacturer') {
+            $data = $this->service->setManufacturer($data);
+            $html = 'reference::view-manufacturer';
+        } elseif ($ref === 'implant') {
+            $data = $this->service->setImplant($data);
+            $html = 'reference::view-implant';
+        } elseif ($ref === 'fixation') {
+            $data = $this->service->setFixation($data);
+            $html = 'reference::view-fixation';
         } else {
             return new EmptyResponse();
         }

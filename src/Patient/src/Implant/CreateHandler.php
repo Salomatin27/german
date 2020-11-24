@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Patient\Handler;
+namespace Patient\Implant;
 
-use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
-use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\Authentication\UserInterface;
 use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\Flash\FlashMessages;
@@ -14,10 +12,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class DeleteHandler implements RequestHandlerInterface
+class CreateHandler implements RequestHandlerInterface
 {
     private $service;
-
     public function __construct(PatientService $service)
     {
         $this->service = $service;
@@ -26,24 +23,18 @@ class DeleteHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $identity = $request->getAttribute(UserInterface::class, null);
+        $operation_id = $request->getAttribute('id', null);
+
         /** @var FlashMessages $flashMessages */
         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
         $flashMessages->clearFlash();
-
-        $patient_id = $request->getAttribute('id');
-
-        $result = $this->service->removePatient($patient_id, $identity);
-
+        $result = $this->service->createOperationImplant($identity, $operation_id);
         if ($result->error) {
-            return new JsonResponse(['error' => $result->error]);
-            //$flashMessages->flash('warning', $result->error);
-            //return new RedirectResponse('/patient/edit' . $patient_id);
-        } else {
-            $message = ' / Patient ' . '<b>' . $result->name . '</b>' . ' entfernt (Patient deleted)';
-            $flashMessages->flash('success', $message);
+            $flashMessages->flash('warning', $result->error);
+            return new RedirectResponse($result->redirect);
         }
-
-        return new JsonResponse(['url' => '/patients']);
+        $flashMessages->flash('success', 'Implant created');
+        return new RedirectResponse('/operation-implant/' . $result->operation_implant_id);
     }
 
 }

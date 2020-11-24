@@ -21,9 +21,29 @@ $(function () {
         }
     });
 
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+        //e.target // newly activated tab
+        //e.relatedTarget // previous active tab
+        changePosition();
+        $('a[data-toggle="pill"]').off('shown.bs.tab');
+    })
+
     const activeTab = JSON.parse(localStorage.getItem(type));
     if (activeTab && activeTab.id === id) {
         let tab = activeTab.tab;
         $('#document-tab a[href="' + tab + '"]').tab('show');
     }
+
 });
+
+function changePosition()
+{
+    const address = location.href;
+    const index = address.indexOf('#');
+    if (index !== -1) {
+        const caller_text = address.slice(index);
+        const caller_object = $(caller_text);
+        const position = caller_object.offset().top - 200;
+        $('body, html').animate({scrollTop: position}, 500);
+    }
+}

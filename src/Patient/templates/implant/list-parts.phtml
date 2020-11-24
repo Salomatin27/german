@@ -1,0 +1,39 @@
+<?php
+if (!$this->items || count($this->items) == 0) {
+    return;
+}
+
+/** @var \App\Entity\OperationImplant $item */
+foreach ($this->items as $item):
+    $address_edit=$this->url('operation-implant.edit', ['id'=>$item->getOperationImplantId()]);
+    $manufacturer= $item->getImplant() ? $item->getImplant()->getManufacturer()->getManufacturerName() : '';
+    $implant = $item->getImplant() ? $item->getImplant()->getImplantName() : '';
+    $fixation = $item->getFixation() ? $item->getFixation()->getFixationName() : '';
+
+?>
+
+    <tr data-id="<?=$item->getOperationImplantId(); ?>" onclick="location.href='<?=$address_edit?>';" class="clickable">
+        <td>
+            <?=$this->escapeHtml($manufacturer)?>
+        </td>
+        <td>
+            <?=$this->escapeHtml($implant)?>
+        </td>
+        <td>
+            <?=$this->escapeHtml($fixation)?>
+        </td>
+        <td>
+            <?=$this->escapeHtml($item->getImplantSize())?>
+        </td>
+        <td>
+            <?=$this->escapeHtml($item->getRemarks())?>
+        </td>
+<!--        <td>-->
+<!--            <a class="btn btn-info pull-left" href="--><?//= $address_edit ?><!--">-->
+<!--                <i class="fa fa-pencil" aria-hidden="true"></i> Ansehen-->
+<!--                <br><span class="english-label">view</span>-->
+<!--            </a>-->
+<!--        </td>-->
+    </tr>
+
+<?php endforeach; ?>

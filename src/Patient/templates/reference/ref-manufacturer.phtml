@@ -1,20 +1,19 @@
 <?php
-/** @var \App\Entity\Clinic[] $items */
+/** @var \App\Entity\Manufacturer[] $items */
 $items = $this->items;
 
 ?>
 
 <div class="h3">
-    Reference <span class="small">clinics</span>
+    Reference <span class="small">manufacturers</span>
 </div>
 <hr>
-
 
 <div class="row">
     <div class="col-sm-3">
         <a href="javascript:void(0)"
            class="btn btn-secondary"
-           onclick="closeReference('clinic')">
+           onclick="closeReference('manufacturer')">
             <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngButton('Schließen', 'close', true)?>
         </a>
     </div>
@@ -29,7 +28,7 @@ $items = $this->items;
 
 <a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="editReference(event)"
    data-id="0"
-   data-ref="clinic" data-name="" data-address="">
+   data-ref="manufacturer" data-name="" data-address="">
     <i class="fa fa-plus" aria-hidden="true"></i> <?=$this->lngButton('Schaffen', 'create')?>
 </a>
 
@@ -38,7 +37,7 @@ $items = $this->items;
         <div class="list-group-item-heading">
             <div class="row">
                 <div class="col-sm-6">
-                    <?=$this->lngLabel('Name / Bezeichnung', 'Name / Designation')?>>
+                    <?=$this->lngLabel('Name / Bezeichnung', 'Name / Designation')?>
                 </div>
             </div>
         </div>
@@ -46,7 +45,7 @@ $items = $this->items;
         <?php foreach ($items as $item): ?>
 
             <?php
-            echo $this->partial('reference::view-clinic', ['item'=>$item]);
+            echo $this->partial('reference::view-manufacturer', ['item'=>$item]);
             ?>
 
         <?php endforeach; ?>

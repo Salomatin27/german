@@ -11,16 +11,23 @@
 }
 .photo-small {
     display: inline-block;
-    width: 5rem;
+    /*width: 5rem;*/
+}
+.photo-small img {
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    display: block;
 }
 .form-control-clear {
-    bottom: 10px;
+    bottom: 0.6rem;
     color: rgba(0, 0, 0, .54);
     cursor: pointer;
     position: absolute;
     right: 0;
-    width: 24px;
+    width: 1.5rem;
     z-index: 10;
+    padding-right: 8rem;
 }
 .has-clear {
     margin-bottom: 0;
@@ -39,4 +46,7 @@
 .operation-row {
     border-style: solid;
     border-width: unset;
+}
+.clickable {
+    cursor: pointer;
 }

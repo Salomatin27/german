@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Patient\Handler;
 
+use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\TextResponse;
 use Patient\Service\PatientService;
 use Psr\Http\Message\ResponseInterface;
@@ -26,7 +27,7 @@ class DeleteOperationHandler implements RequestHandlerInterface
         }
         $result = $this->service->removeOperation($id);
 
-        return new TextResponse($result);
+        return new JsonResponse(['error' => $result->error]);
     }
 
 }

@@ -2,8 +2,16 @@ var caller = null;
 
 function reference(item, caller_object = null)
 {
+    const manufacturer = $('#manufacturer').val();
+    const kind = $('#kind').val();
+    let url = '/reference/'+item;
+    if (manufacturer) {
+        url = url + '?manufacturer=' + manufacturer + '&kind=' + kind;
+        //url = url + '/' + manufacturer;
+    }
+    // location.href = url;
     $.ajax({
-        url: '/reference/'+item,
+        url: url,
         type: 'GET',
         success: function (data) {
             if (caller_object) {
@@ -20,12 +28,14 @@ function reference(item, caller_object = null)
 }
 function editReference(event)
 {
-    const object=$(event.currentTarget);
-    const id=object.data('id');
-    const name=object.data('name');
-    const address=object.data('address');
-    const ref=object.data('ref');
-    let panel=$('#data-panel');
+    const object = $(event.currentTarget);
+    const id = object.data('id');
+    const manufacturer_id = $('#manufacturer').val(); //object.data('manufacturer');
+    const kind_id = $('#kind').val();
+    const name = object.data('name');
+    const address = object.data('address');
+    const ref = object.data('ref');
+    let panel = $('#data-panel');
 
     if (id===0) {
         // new row
@@ -49,6 +59,8 @@ function editReference(event)
     }
     let form = '<form name="reference-form" method="post" autocomplete="off" id="reference-form" >'
         + '<input type="hidden" name="id" value="'+id+'">'
+        + '<input type="hidden" name="manufacturer_id" value="'+manufacturer_id+'">'
+        + '<input type="hidden" name="kind_id" value="'+kind_id+'">'
         + '<div class="row">'
         + fields
         + '</div><br><div class="row">'
@@ -122,13 +134,39 @@ function updateReference(ref)
     return false;
 }
 
-function closeReference(keyword)
+function closeReference(keyword = null)
 {
+    refreshOptions(keyword);
+    $('#patient').show('fast', function () {
+        // if (navigator.userAgent.match(/Chrome|AppleWebKit/)) {
+        //     window.location.href = "#edit-item-well";
+        //     window.location.href = "#edit-item-well";
+        // } else {
+        //     window.location.hash = "edit-item-well";
+        // }
+        if (caller) {
+            let top = caller.offset().top - 200;
+            $('body, html').animate({scrollTop: top}, 500);
+        }
+
+    });
+}
+
+function refreshOptions(keyword) {
+    const manufacturer_id = $('#manufacturer').val();
+    const kind_id = $('#kind').val();
     let ref=$('#reference');
     ref.hide();
     ref.empty();
+    if (!keyword) {
+        return false;
+    }
+
     let opt=$('select[data-db="'+keyword+'"]');
-    const url='/reference-options/'+keyword;
+    let url='/reference-options/'+keyword;
+    if (manufacturer_id) {
+        url = url + '?manufacturer=' + manufacturer_id + '&kind=' + kind_id;
+    }
 
     $.ajax({
         url: url,
@@ -143,18 +181,5 @@ function closeReference(keyword)
                 selectpicker.selectpicker('val',current);
             });
         }
-    });
-    $('#patient').show('fast', function () {
-        // if (navigator.userAgent.match(/Chrome|AppleWebKit/)) {
-        //     window.location.href = "#edit-item-well";
-        //     window.location.href = "#edit-item-well";
-        // } else {
-        //     window.location.hash = "edit-item-well";
-        // }
-        if (caller) {
-            let top = caller.offset().top - 200;
-            $('body, html').animate({scrollTop: top}, 500);
-        }
-
     });
 }

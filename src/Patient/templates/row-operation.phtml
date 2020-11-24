@@ -3,17 +3,7 @@
 $operation = $this->operation;
 $identity = $this->identity;
 if (!$operation) {
-    $operation = [
-        'operationId' => null,
-        'surgeonId' => null,
-        'clinicId' => null,
-        'kindId' => null,
-        'date' => null,
-        'remarks' => null,
-        'caseNumber' => null,
-        'patientHeight' => null,
-        'patientWeight' => null,
-    ];
+    return;
 }
 $labels = [
     'date'          => $this->lngLabel('Datum', 'date'),
@@ -26,55 +16,68 @@ $labels = [
     'kind'          => $this->lngLabel('Typ', 'type'),
 ];
 
-$date = $operation['date'] ? date_create($operation['date'])->format('d-m-Y') : '...';
-$remove_text1 = 'Löschen operation ' . $date;
-$remove_text2 = 'delete operation ' . $date;
+$date_text = $operation->getDate() ? $operation->getDate()->format('d-m-Y H:i') : '...';
+$date_value = $operation->getDate() ? $operation->getDate()->format('d-m-Y H:i') : '';
+$remove_text1a = 'Löschen operation ';
+$remove_text2a = 'delete operation ';
+$remove_text1 = $remove_text1a . $date_text;
+$remove_text2 = $remove_text2a . $date_text;
+
+$id = $operation->getOperationId();
 
 ?>
 
 
-<tr data-id="<?=$operation['operationId']?>" class="operation-row delete-object">
+<tr data-id="<?=$id?>" class="operation-row delete-object">
     <input type="hidden"
            class="form-control form-control-sm"
-           name="operation[<?=$operation['operationId']?>][surgeonId]"
-           id="operation[<?=$operation['operationId']?>][surgeonId]"
-           value="<?=$operation['surgeonId']?>"
+           name="operation[<?=$id?>][surgeonId]"
+           id="operation[<?=$id?>][surgeonId]"
+           value="<?=$operation->getSurgeon() ? $operation->getSurgeon()->getSurgeonId() : null?>"
     >
     <input type="hidden"
            class="form-control form-control-sm"
-           name="operation[<?=$operation['operationId']?>][operationId]"
-           id="operation[<?=$operation['operationId']?>][operationId]"
-           value="<?=$operation['operationId']?>"
+           name="operation[<?=$id?>][operationId]"
+           id="operation[<?=$id?>][operationId]"
+           value="<?=$id?>"
     >
     <input type="hidden"
            class="form-control form-control-sm"
-           name="operation[<?=$operation['operationId']?>][clinicId]"
-           id="operation[<?=$operation['operationId']?>][clinicId]"
-           value="<?=$operation['clinicId']?>"
+           name="operation[<?=$id?>][clinicId]"
+           id="operation[<?=$id?>][clinicId]"
+           value="<?=$operation->getClinic() ? $operation->getClinic()->getClinicId() : null?>"
     >
     <td>
         <div class="row">
-            <div class="col-md-1">
-                <span class="badge badge-primary"><?=$this->object_num?></span>
+            <div class="col-6">
+                <div class="h5">
+                    <?=$this->lngLabel('Betrieb', 'operation')?>
+                    <span class="badge badge-primary"><?=$this->object_num?></span>
+                </div>
+            </div>
+            <div class="col-6">
                 <a href="javascript:void(0)"
-                   onclick="removeDocument('<?=$this->url('operation.delete',['id'=>$operation['operationId']])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)"
-                   class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
+                   onclick="removeDocument('<?=$this->url('operation.delete',['id'=>$id])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)"
+                   class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash"></i> <?=$this->lngButton($remove_text1a, $remove_text2a)?>
                 </a>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <label class=" text-sm-left"><small><?=$labels['date']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm datetimepicker"
-                       name="operation[<?=$operation['operationId']?>][date]"
-                       value="<?=$this->escapeHtml($operation['date'])?>"
+                       name="operation[<?=$id?>][date]"
+                       value="<?=$date_value?>"
                        maxlength="50">
 
             </div>
             <div class="col-md-5">
                 <label class=" text-sm-left"><small><?=$labels['kind']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
-                        name="operation[<?=$operation['operationId']?>][kind]"
-                        id="operation[<?=$operation['operationId']?>][kind]"
+                        name="operation[<?=$id?>][kind]"
+                        id="operation[<?=$id?>][kind]"
                         data-db="kind"
                         data-width="100%"
                         data-style="btn-primary"
@@ -84,7 +87,7 @@ $remove_text2 = 'delete operation ' . $date;
                     <?php
                     foreach ($this->kinds as $kind):
                         $selected =
-                            intval($operation['kindId']) === $kind->getKindId() ? 'selected' : '';
+                            $operation->getKind()->getKindId() === $kind->getKindId() ? 'selected' : '';
                         echo '<option ' . $selected . ' class="form-control form-control-sm" '
                             . 'data-id="' . $kind->getKindId()
                             . '" data-name="' . $kind->getOperationKind()
@@ -95,17 +98,20 @@ $remove_text2 = 'delete operation ' . $date;
                 </select>
 
             </div>
-            <div class="col-md-2">
-                <a style="margin-top: 2rem" href="javascript:void(0)" onclick="reference('kind', this)" class="btn btn-secondary">
+            <div class="col-md-3">
+                <a style="margin-top: 2rem; width: inherit"
+                   href="javascript:void(0)"
+                   onclick="reference('kind', this)"
+                   class="btn btn-secondary">
                     <i class="fas fa-pen"></i> <?=$this->lngLabel('Typen', 'types')?>
                 </a>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-5 offset-md-5">
+            <div class="col-md-5 offset-md-4">
                 <label class=" text-sm-left"><small><?=$labels['surgeon']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
-                        name="operation[<?=$operation['operationId']?>][surgeon]"
-                        id="operation[<?=$operation['operationId']?>][surgeon]"
+                        name="operation[<?=$id?>][surgeon]"
+                        id="operation[<?=$id?>][surgeon]"
                         data-db="surgeon"
                         data-width="100%"
                         data-style="btn-primary"
@@ -113,9 +119,10 @@ $remove_text2 = 'delete operation ' . $date;
                         title="..."
                 >
                     <?php
+                    $current = $operation->getSurgeon() ? $operation->getSurgeon()->getSurgeonId() : null;
                     foreach ($this->surgeons as $surgeon):
                         $selected =
-                            intval($operation['surgeonId']) === $surgeon->getSurgeonId() ? 'selected' : '';
+                            $current === $surgeon->getSurgeonId() ? 'selected' : '';
                         echo '<option ' . $selected . ' class="form-control form-control-sm" '
                             . 'data-id="' . $surgeon->getSurgeonId()
                             . '" data-name="' . $surgeon->getSurgeonName()
@@ -126,26 +133,29 @@ $remove_text2 = 'delete operation ' . $date;
                 </select>
 
             </div>
-            <div class="col-md-2">
-                <a style="margin-top: 2rem" href="javascript:void(0)" onclick="reference('surgeon', this)" class="btn btn-secondary">
+            <div class="col-md-3">
+                <a style="margin-top: 2rem; width: inherit"
+                   href="javascript:void(0)"
+                   onclick="reference('surgeon', this)"
+                   class="btn btn-secondary">
                     <i class="fas fa-pen"></i> Surgeons
                 </a>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-4 offset-md-1">
+            <div class="col-md-4">
                 <label class=" text-sm-left"><small><?=$labels['caseNumber']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm"
-                       name="operation[<?=$operation['operationId']?>][caseNumber]"
-                       value="<?=$this->escapeHtml($operation['caseNumber'])?>"
+                       name="operation[<?=$id?>][caseNumber]"
+                       value="<?=$this->escapeHtml($operation->getCaseNumber())?>"
                        maxlength="10">
 
             </div>
             <div class="col-md-5">
                 <label class=" text-sm-left"><small><?=$labels['clinic']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
-                       name="operation[<?=$operation['operationId']?>][clinic]"
-                       id="operation[<?=$operation['operationId']?>][clinic]"
+                       name="operation[<?=$id?>][clinic]"
+                       id="operation[<?=$id?>][clinic]"
                         data-db="clinic"
                         data-width="100%"
                         data-style="btn-primary"
@@ -153,9 +163,10 @@ $remove_text2 = 'delete operation ' . $date;
                         title="..."
                 >
                     <?php
+                    $current = $operation->getClinic() ? $operation->getClinic()->getClinicId() : null;
                     foreach ($this->clinics as $clinic):
                         $selected =
-                            intval($operation['clinicId']) === $clinic->getClinicId() ? 'selected' : '';
+                            $current === $clinic->getClinicId() ? 'selected' : '';
                         echo '<option ' . $selected . ' class="form-control form-control-sm" '
                             . 'data-id="' . $clinic->getClinicId()
                             . '" data-name="' . $clinic->getClinicName()
@@ -165,40 +176,49 @@ $remove_text2 = 'delete operation ' . $date;
                     ?>
                 </select>
             </div>
-            <div class="col-md-2">
-                <a style="margin-top: 2rem" href="javascript:void(0)" onclick="reference('clinic', this)" class="btn btn-secondary">
+            <div class="col-md-3">
+                <a style="margin-top: 2rem; width: inherit"
+                   href="javascript:void(0)"
+                   onclick="reference('clinic', this)"
+                   class="btn btn-secondary">
                     <i class="fas fa-pen"></i> Clinics
                 </a>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-5 offset-md-1">
+            <div class="col-md-6">
                 <label class=" text-sm-left"><small><?=$labels['patientHeight']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm"
-                       name="operation[<?=$operation['operationId']?>][patientHeight]"
-                       value="<?=$operation['patientHeight']?>"
+                       name="operation[<?=$id?>][patientHeight]"
+                       value="<?=$operation->getPatientHeight()?>"
                 >
             </div>
-            <div class="col-md-5 offset-md-1">
+            <div class="col-md-6">
                 <label class=" text-sm-left"><small><?=$labels['patientWeight']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm"
-                       name="operation[<?=$operation['operationId']?>][patientWeight]"
-                       value="<?=$operation['patientWeight']?>"
+                       name="operation[<?=$id?>][patientWeight]"
+                       value="<?=$operation->getPatientWeight()?>"
                 >
             </div>
             <div class="w-100"></div>
-            <div class="col-md-11 offset-md-1">
+            <div class="col-md-12">
                 <label class=" text-sm-left"><small><?=$labels['remarks']?></small></label>
                 <textarea
                        class="form-control form-control-sm"
-                       name="operation[<?=$operation['operationId']?>][remarks]"
+                       name="operation[<?=$id?>][remarks]"
                        rows="3">
-                    <?=$this->escapeHtml($operation['remarks'])?>
+                    <?=$this->escapeHtml($operation->getRemarks())?>
                 </textarea>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-11 offset-md-1">
+            <div class="col-md-12" id="operation_implants_<?=$id?>">
+                <?php
+                echo $this->partial('implant::list', ['implants' => $operation->getOperationImplant(), 'operation_id' => $id]);
+                ?>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-12">
                 <div class="operation-photo">
                 </div>
             </div>

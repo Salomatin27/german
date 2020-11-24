@@ -1,13 +1,12 @@
 <?php
 
-/** @var \App\Entity\Clinic $item */
+/** @var \App\Entity\Fixation $item */
 $item = $this->item;
-$id = $item->getClinicId();
-$name = $this->escapeHtml($item->getClinicName());
-$address = $this->escapeHtml($item->getClinicAddress());
+$id = $item->getFixationId();
+$name = $this->escapeHtml($item->getFixationName());
 
-$remove_text1 = 'Löschen klinik ' . $name;
-$remove_text2 = 'delete clinic ' . $name;
+$remove_text1 = 'Löschen Fixierung ' . $name;
+$remove_text2 = 'delete fixation ' . $name;
 
 ?>
 
@@ -18,8 +17,9 @@ $remove_text2 = 'delete clinic ' . $name;
                class="value-ref"
                data-id="<?=$id?>"
                data-name="<?=$name?>"
-               data-address="<?=$address?>"
-               data-ref="clinic"
+               data-address=""
+               data-ref="fixation"
+               data-manufacturer="<?=$item->getManufacturer()->getManufacturerId()?>"
             >
                 <?= $name ?>
             </a>
@@ -27,7 +27,7 @@ $remove_text2 = 'delete clinic ' . $name;
         <div class="col-sm-2 float-right">
             <a href="javascript:void(0)"
                class="float-right text-danger"
-               onclick="removeDocument('<?=$this->url('reference.delete',['item' => 'clinic', 'id' => $id])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)">
+               onclick="removeDocument('<?=$this->url('reference.delete',['item' => 'fixation', 'id' => $id])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)">
                 <i class="fas fa-trash"></i>
             </a>
 

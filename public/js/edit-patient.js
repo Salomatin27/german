@@ -53,7 +53,7 @@ function addOperationRow()
             getImages(data);
             dateTimePicker(true,data.find('.datetimepicker'));
             data.find('.selectpicker').selectpicker();
-            let table = $('#_operation tbody');
+            let table = $('#_operation_tbody');
             table.append(data);
             let top = $(data).offset().top;
             $('body, html').animate({scrollTop: top}, 500);

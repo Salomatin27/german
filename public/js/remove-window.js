@@ -60,9 +60,11 @@ $(function () {
                     url: url,
                     type: 'delete',
                     success: function (data) {
-                        // if (data.result === 'deleted') {
+                        if (data.error) {
+                            messageBox(data.error, false);
+                        } else if (data.url) {
                             window.location = data.url;
-                        // }
+                        }
                     },
                     error: function () {
                         messageBox('server error', false);
@@ -73,9 +75,11 @@ $(function () {
                     url: url,
                     type: 'delete',
                     success: function (data) {
-                        if (data === 'deleted') {
+                        if (data.error) {
+                            messageBox(data.error, false);
+                        } else {
                             $(element).remove();
-                            messageBox('deleted', true);
+                            messageBox('entfernt', true);
                         }
                     },
                     error: function () {

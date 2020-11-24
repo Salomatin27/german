@@ -1,0 +1,27 @@
+<?php
+
+$items=$this->items;
+/** @var \App\Entity\Implant $item */
+$item=null;
+
+?>
+
+<option value="">...</option>
+<?php foreach ($items as $item): ?>
+
+    <?php
+    $id = $item->getImplantId();
+    $name = $this->escapeHtml($item->getImplantName());
+    $label = $name . ' ';
+    ?>
+
+    <option
+            class="form-control"
+            value="<?=$id?>"
+            data-id="<?=$id?>"
+            data-name="<?=$name?>"
+            data-address="">
+        <?=$label?>
+    </option>
+
+<?php endforeach; ?>

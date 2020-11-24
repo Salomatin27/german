@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Patient\Reference;
 
-use Laminas\Diactoros\Response\TextResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 use Patient\Service\PatientService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,6 +24,6 @@ class DeleteHandler implements RequestHandlerInterface
         $item = $request->getAttribute('item', null);
         $result = $this->service->removeReference($id, $item);
 
-        return new TextResponse($result);
+        return new JsonResponse([$result->error]);
     }
 }

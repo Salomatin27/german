@@ -1,0 +1,32 @@
+<br>
+<hr>
+<div class="h5"><?=$this->lngLabel('Implantate', 'implants')?></div>
+<div class="row">
+    <div class="col-12">
+        <form></form>
+        <form method="post" action="<?= $this->url('operation-implant.create', ['id' => $this->operation_id]); ?>">
+            <button type="submit" class="btn btn-sm btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <?=$this->lngButton('Addieren Implantieren', 'add implant')?>
+            </button>
+        </form>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"><?=$this->lngLabel('Hersteller', 'manufacturer')?></th>
+                <th scope="col"><?=$this->lngLabel('Implantieren', 'implant')?></th>
+                <th scope="col"><?=$this->lngLabel('Fixierung', 'fixation')?></th>
+                <th scope="col"><?=$this->lngLabel('Größe', 'size')?></th>
+                <th scope="col"><?=$this->lngLabel('Bemerkungen', 'remarks')?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        echo $this->partial('implant::list-parts', ['items' => $this->implants]);
+        ?>
+        </tbody>
+    </table>
+</div>

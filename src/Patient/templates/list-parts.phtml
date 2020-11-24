@@ -2,34 +2,37 @@
 foreach ($this->items as $item): ?>
     <?php $address_edit=$this->url('patient.edit', ['id'=>$item->getPatientId()]); ?>
 
-    <tr data-id="<?=$item->getPatientId(); ?>" >
+    <tr data-id="<?=$item->getPatientId(); ?>" onclick="location.href='<?=$address_edit?>';" class="clickable">
         <td>
-            <div class="img-thumbnail photo-small">
-                <a href="<?= $address_edit ?>">
-                    <?php if ($item->getImage()): ?>
-                        <img
-                                src="data:image;base64,<?= base64_encode(stream_get_contents($item->getImage())); ?>"
-                                style="height: 60px;">
-                    <?php else: ?>
-                        <img src="/img/first.png" style="width: 100%">
-                    <?php endif; ?>
-                </a>
+            <div class=" photo-small"> <!-- img-thumbnail -->
+                <?php if ($item->getImage()): ?>
+                    <img src="data:image;base64,<?= base64_encode(stream_get_contents($item->getImage())); ?>">
+                <?php else: ?>
+                    <img src="/img/first.png" >
+                <?php endif; ?>
+                <?=$this->escapeHtml($item->getFirstName())?><br>
+                <?=$this->escapeHtml($item->getSurname())?>
             </div>
         </td>
         <td>
-<!--            <a href="--><?//= $address_edit ?><!--">-->
-                <?=$this->escapeHtml($item->getFirstName())?><br>
-                <?=$this->escapeHtml($item->getSurname())?>
-<!--            </a>-->
+            <span>
+                <?= $item->getBirthday()?$item->getBirthday()->format('d-m-Y'):''; ?>
+            </span>
         </td>
         <td>
-            <?= $item->getBirthday()?$item->getBirthday()->format('d-m-Y'):''; ?>
-        </td>
-        <td>
-            <a class="btn btn-info pull-left" href="<?= $address_edit ?>">
-                <i class="fa fa-pencil" aria-hidden="true"></i> Ansehen
-                <br><span class="english-label">view</span>
-            </a>
+            <?php
+            $count = $item->getOperation()->count();
+            if ($count > 0) {
+                $opr = $item->getOperation()->last();
+                echo '<span>' . $opr->getKind()->getOperationKind() . ' '
+                    . ($opr->getDate() ? $opr->getDate()->format('d-m-Y H:i') : '...') . '</span><br>';
+                echo '<b>' . ($opr->getSurgeon() ? $opr->getSurgeon()->getSurgeonName() : '') . '</b>';
+                if ($count > 1) {
+                    echo '<br><span class="badge badge-dark">mehr menge '
+                        . ($count - 1) . '</span>';
+                }
+            }
+            ?>
         </td>
     </tr>
 

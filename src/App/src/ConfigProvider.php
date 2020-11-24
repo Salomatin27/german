@@ -6,6 +6,7 @@ namespace App;
 
 use App\Factory\AbstractHandlerFactory;
 use App\Helper\Flash;
+use App\Helper\LngButton;
 use App\Helper\LngLabel;
 use App\Helper\LngLabelFactory;
 use App\Middleware\PrgMiddleware;
@@ -36,6 +37,7 @@ class ConfigProvider
                 'invokables' => [
                     'flash' => Flash::class,
                     'lngLabel' => LngLabel::class,
+                    'lngButton' => LngButton::class,
                 ],
                 'aliases' => [
 

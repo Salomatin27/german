@@ -35,6 +35,10 @@ return [
                 'reference.delete',
                 'patient-photo.save',
                 'patient-photo.get',
+                'operation-implant.create',
+                'operation-implant.edit',
+                'operation-implant.delete',
+
             ],
             'administrator' => [
                 'doctrine.test',
