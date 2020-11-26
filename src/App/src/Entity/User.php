@@ -12,6 +12,37 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+    // User status constants.
+    const STATUS_ACTIVE       = 1; // Active user.
+    const STATUS_RETIRED      = 2; // Retired user.
+
+    /**
+     * Returns possible statuses as array.
+     * @return array
+     */
+    public static function getStatusList()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Aktiv(active)',
+            self::STATUS_RETIRED => 'Geschlossen(closed)'
+        ];
+    }
+
+    /**
+     * Returns user status as string.
+     * @return string
+     */
+    public function getStatusAsString()
+    {
+        $list = self::getStatusList();
+        if (isset($list[$this->status])) {
+            return $list[$this->status];
+        }
+
+        return 'Unbekannt(Unknown)';
+    }
+
+
     /**
      * @var int
      *

@@ -175,8 +175,8 @@ class PatientService
 //            }
 //
             // logger
-            $logger = new DebugStack();
-            $this->entityManager->getConnection()->getConfiguration()->setSQLLogger($logger);
+//            $logger = new DebugStack();
+//            $this->entityManager->getConnection()->getConfiguration()->setSQLLogger($logger);
 
             // save
             $this->entityManager->flush();

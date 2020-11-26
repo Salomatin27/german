@@ -1,0 +1,45 @@
+<?php
+$this->headTitle('Сотрудники');
+$users = $this->users;
+?>
+<div class="h3">Список сотрудников</div>
+
+<form method="post" action="<?= $this->url('user.edit'); ?>">
+    <button type="submit" class="btn btn-sm btn-success mt-3">
+        <i class="fa fa-plus" aria-hidden="true"></i><?=$this->lngButton('Schaffen', 'create')?>
+    </button>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"><?=$this->lngLabel('E-Mail', 'email', true)?></th>
+                <th scope="col"><?=$this->lngLabel('Vollständiger Name', 'full name', true)?></th>
+                <th scope="col"><?=$this->lngLabel('Rolle', 'role', true)?></th>
+                <th scope="col"><?=$this->lngLabel('Erstelldatum', 'date of creation', true)?></th>
+                <th scope="col"><?=$this->lngLabel('Status', '', true)?></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php /** @var \App\Entity\User $user */ foreach ($users as $user):
+                $address_edit = $this->url('user.edit', ['id'=>$user->getUserId()]);
+            ?>
+
+            <tr data-id="<?=$user->getUserId(); ?>" onclick="location.href='<?=$address_edit?>';" class="clickable">
+                <td>
+                    <?= $this->escapeHtml($user->getEmail()); ?>
+                </td>
+                <td><?= $this->escapeHtml($user->getFullName()); ?></td>
+                <td><?= $this->escapeHtml($user->getRole()->getDesc()); ?></td>
+                <td><?= $user->getDateCreated()->format("d-m-Y H:i:s"); ?></td>
+                <td><?= $this->escapeHtml($user->getStatusAsString()); ?></td>
+            </tr>
+
+        <?php endforeach; ?>
+        </tbody>
+
+    </table>
+</div>
+

@@ -173,4 +173,43 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         'operation-implant.delete'
     );
 
+    // user
+    $app->get('/users', \User\Action\ListUsersAction::class, 'users');
+    $app->route(
+        '/user/edit[/{id}]',
+        [
+            CsrfMiddleware::class,
+            PrgMiddleware::class,
+            \User\Action\EditUserAction::class,
+        ],
+        ['GET','POST','PATCH'],
+        'user.edit'
+    );
+    $app->route(
+        '/user/changePassword/{id}',
+        [
+            CsrfMiddleware::class,
+            PrgMiddleware::class,
+            \User\Action\ChangePasswordAction::class,
+        ],
+        ['GET','POST'],
+        'user.change-password'
+    );
+    $app->route(
+        '/user/resetPassword',
+        \User\Action\ResetPasswordAction::class,
+        ['GET','POST'],
+        'user.reset-password'
+    );
+    $app->get(
+        '/user/message/{id}',
+        \User\Action\MessageAction::class,
+        'user.message'
+    );
+    $app->route(
+        '/set-password',
+        \User\Action\SetPasswordAction::class,
+        ['GET','POST'],
+        'user.set-password'
+    );
 };

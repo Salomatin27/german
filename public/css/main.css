@@ -50,3 +50,6 @@
 .clickable {
     cursor: pointer;
 }
+.fa, .fas, .far {
+    margin-right: .5rem;
+}

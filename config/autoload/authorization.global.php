@@ -43,6 +43,12 @@ return [
             'administrator' => [
                 'doctrine.test',
                 'api.ping',
+                'users',
+                'user.edit',
+                'user.change-password',
+                'user.reset-password',
+                'user.set-password',
+                'user.message',
             ],
         ],
     ],

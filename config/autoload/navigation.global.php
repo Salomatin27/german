@@ -46,6 +46,11 @@ return [
                 ],
             ],
             [
+                'label' => 'Anwender',
+                'route' => 'users',
+                'english' => 'users',
+            ],
+            [
                 'label' => 'Ausloggen',
                 'route' => 'logout',
                 'english' => 'logout',
