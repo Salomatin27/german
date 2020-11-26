@@ -4,7 +4,7 @@ $this->login_form->get('csrf')->setValue($this->token);
 //$this->login_form->prepare();
 //echo $this->form($this->login_form);
 
-$this->headTitle('Вход');
+$this->headTitle('Eingang');
 
 
 $this->login_form->get('username')->setAttributes([
@@ -27,7 +27,7 @@ $this->login_form->get('password')->setAttributes([
     ]);
 ?>
 
-    <div class="text-center">
+    <div class="">
         <form style="margin: auto;max-width: 330px;padding: 15px;width: 100%" method="post">
 <!--            <h1 class="h3 mb-3">Login</h1>-->
 <!--            --><?php //if ($isLoginError): ?>
@@ -35,12 +35,15 @@ $this->login_form->get('password')->setAttributes([
 <!--                    Неверные данные для входа.-->
 <!--                </div>-->
 <!--            --><?php //endif; ?>
-            <?= $this->formLabel($this->login_form->get('username')); ?>
+            <label><?=$this->lngLabel('Nutzername', 'username')?></label>
             <?= $this->formElement($this->login_form->get('username')); ?>
-            <?= $this->formLabel($this->login_form->get('password')); ?>
+
+            <label><?=$this->lngLabel('Passwort', 'password')?></label>
             <?= $this->formElement($this->login_form->get('password')); ?>
+
             <?= $this->formElement($this->login_form->get('redirect_url')); ?>
             <?= $this->formElement($this->login_form->get('csrf')) ?>
-            <button class="btn btn-lg btn-primary btn-block mt-lg-3" type="submit">LOGIN</button>
+
+            <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Login</button>
         </form>
     </div>

@@ -19,10 +19,8 @@ $this->inlineScript()
     <style>
         body { padding-top: 70px; }
         .app { min-height: 100vh; }
-        .app-footer { padding-bottom: 1em; }
-        .mezzio-green, h2 a, h2 a:hover { color: #009655; }
-        .navbar-brand { padding: 0; }
         .navbar-brand img { margin: -.5rem 0; filter: brightness(0) invert(1); }
+        label { margin-top: 1rem; }
     </style>
 </head>
 <body class="app">
@@ -30,13 +28,6 @@ $this->inlineScript()
     <div class="app-content">
         <main class="container">
             <?=$this->flash()?>
-<!--            --><?php //if ($flashes = $this->flash()) :?>
-<!--                <ul>-->
-<!--                    --><?php //foreach($flashes as $message) : ?>
-<!--                        <li>--><?php //echo $message; ?><!--</li>-->
-<!--                    --><?php //endforeach; ?>
-<!--                </ul>-->
-<!--            --><?php //endif; ?>
             <?=$this->content?>
         </main>
     </div>
