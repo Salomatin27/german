@@ -1,3 +1,4 @@
+const patient_id = getPatientId();
 $(function () {
     buildCheckboxes();
     addSimpleWindow();
@@ -9,11 +10,44 @@ $(function () {
         calculateAge();
     });
 
+    var timeout;
+    $('#patient-form input, #patient-form textarea, #patient-form select').on('input dp.change changed.bs.select', function (e) {
+        let _obj = $(this);
+        let value = _obj.val();
+        let obj = _obj.attr('name');
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            // Runs 1 second (1000 ms) after the last change
+            console.log('send to update: event->' + e.type + ' ' + obj + ' = ' + value);
+            savePatient(obj, value);
+        }, 1000);
+    });
+
     patientPhotoHandler();
     images();
     calculateAge();
 
 });
+
+function savePatient(obj, value)
+{
+    $.ajax({
+        url: '/patient/' + patient_id, //+ '?' + obj + '=' + value,
+        type: 'post',
+        data: [{name: obj, value: value}],
+        success: function (data) {
+            if (data === 'error') {
+                messageBox('can\'t update operation', false);
+                console.log('error: ' + data.error);
+                return false;
+            }
+        },
+        error: function (jqXhr, m, c) {
+            messageBox('can\'t update patient', false);
+            console.log('error: ' + 'server error');
+        }
+    });
+}
 
 function calculateAge()
 {
@@ -40,7 +74,7 @@ function calculateAge()
 // object rows
 function addOperationRow()
 {
-    const patient_id = getPatientId();
+    //const patient_id = getPatientId();
     $.ajax({
         url: '/operation/' + patient_id,
         type: 'post',

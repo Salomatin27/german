@@ -576,6 +576,52 @@ class PatientService
         return $kind;
     }
 
+    public function getOperation($id)
+    {
+        return $this->entityManager->getRepository(Operation::class)->find($id);
+    }
+
+    /**
+     * Update patient->operation for autosave func
+     * @param $id
+     * @param array|null $data
+     * @param $identity
+     * @return \stdClass
+     * @throws \Doctrine\Persistence\Mapping\MappingException
+     */
+    public function patchPatient($id, ?array $data, $identity): \stdClass
+    {
+        $this->entityManager->clear();
+        $error = null;
+        try {
+            $patient = $this->getPatient($id);
+            $hydrator = new DoctrineObject($this->entityManager);
+
+            // если обновление по операциям, надо обновить строку operation, hydrator fail
+            if ($data['operation']) {
+                $operationId = null;
+                $operation_array_update = [];
+                foreach ($data['operation'] as $operation_key => $operation_array) {
+                    $operationId = intval($operation_key);
+                    $operation_array_update = $operation_array;
+                }
+                //$data['operation'][$operationId]['operationId'] = $operationId;
+                //$data['operation'][$operationId]['patientId'] = $id;
+                $operation = $this->getOperation($operationId);
+                $operation = $hydrator->hydrate($operation_array_update, $operation);
+                $this->entityManager->flush($operation);
+            } else {
+                $patient = $hydrator->hydrate($data, $patient);
+                $this->entityManager->flush($patient);
+            }
+
+        } catch (\Exception $exception) {
+            $error = $exception->getMessage();
+        }
+
+        return (object)['error' => $error];
+    }
+
     private function updateClinic($data)
     {
         /** @var Clinic $clinic */

@@ -41,6 +41,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     //$app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
     //$app->get('/doctrine', \App\Handler\DoctrineHandler::class, 'doctrine.test');
 
+    //region auth
     $app->route(
         '/login',
         [
@@ -56,8 +57,9 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         'login'
     );
     $app->get('/logout', \App\Handler\LogoutPageHandler::class, 'logout');
+    //endregion
 
-    // patient
+    //region patient
     $app->get(
         '/patients[/{page}]',
         [
@@ -73,7 +75,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
             PrgMiddleware::class,
             \Patient\Handler\EditHandler::class
         ],
-        ['GET', 'PATCH', 'POST'],
+        ['GET'],
         'patient.edit'
     );
     $app->route(
@@ -81,6 +83,15 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         Patient\Handler\CreateHandler::class,
         ['post'],
         'patient.create'
+    );
+    $app->route(
+        '/patient/{id}',
+        [
+            CsrfMiddleware::class,
+            \Patient\Handler\PatchHandler::class
+        ],
+        [ 'post'],
+        'patient.patch'
     );
     $app->delete(
         '/patient/{id}',
@@ -127,8 +138,9 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         Patient\Handler\DeleteOperationHandler::class,
         'operation.delete'
     );
+    //endregion
 
-    // reference
+    //region reference
     $app->get(
         '/reference/{item}',
         \Patient\Reference\OpenHandler::class,
@@ -150,8 +162,9 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         \Patient\Reference\DeleteHandler::class,
         'reference.delete'
     );
+    //endregion
 
-    // operation-implant
+    //region operation-implant
     $app->post(
         '/operation-implant-create/{id}',
         Patient\Implant\CreateHandler::class,
@@ -172,8 +185,9 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         \Patient\Implant\DeleteHandler::class,
         'operation-implant.delete'
     );
+    //endregion
 
-    // user
+    //region user
     $app->get('/users', \User\Action\ListUsersAction::class, 'users');
     $app->route(
         '/user/edit[/{id}]',
@@ -212,4 +226,5 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         ['GET','POST'],
         'user.set-password'
     );
+    //endregion
 };
