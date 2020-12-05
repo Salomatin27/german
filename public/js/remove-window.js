@@ -63,7 +63,7 @@ $(function () {
                         if (data.error) {
                             messageBox(data.error, false);
                         } else if (data.url) {
-                            window.location = data.url;
+                            window.location.href = data.url;
                         }
                     },
                     error: function () {
