@@ -15,7 +15,7 @@ $this->inlineScript()
 
 $this->inlineScript()->prependFile('/js/tab-restore.js');
 $this->inlineScript()->prependFile('/js/edit-patient.js?n=1');
-$this->inlineScript()->prependFile('/js/reference.js');
+$this->inlineScript()->prependFile('/js/reference.js?n=1');
 $this->inlineScript()->prependFile('/js/base.js');
 
 $this->inlineScript()->prependFile('/js/remove-window.js');
@@ -46,7 +46,7 @@ $form->prepare();
     ?>
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-8">
             <div class="h3">
                 <?php
                 echo 'Patient ' . '<small class="text-primary h5">'
@@ -66,14 +66,14 @@ $form->prepare();
                  style="">
 
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <?php
             $remove_text1 = 'Löschen patient ' . trim($patient->getSurname());
             $remove_text2 = 'delete patient ' . trim($patient->getSurname());
             ?>
             <a href="javascript:void(0)"
                onclick="removeDocument('<?=$this->url('patient.delete',['id'=>$patient->getPatientId()])?>', '<?=$remove_text1?>', '<?=$remove_text2?>')"
-               class="btn btn-danger mr-1 mb-1">
+               class="btn btn-danger mr-1 mb-1 float-right">
                 <i class="fas fa-trash" aria-hidden="true"></i> <?=$this->lngButton('LÖSCHEN', 'delete', true)?>
             </a>
 <!--            <button type="submit"-->
@@ -83,7 +83,7 @@ $form->prepare();
         </div>
     </div>
 
-    <ul id="document-tab" class="nav nav-pills mb-3" role="tablist">
+    <ul id="document-tab" class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item">
             <a id="patient-tab" class="nav-link active" href="#_patient" data-toggle="pill" role="tab" aria-controls="_patient"
                aria-selected="true"><?=$this->lngLabel('Grundinformationen', 'basic data of patient', true)?></a>

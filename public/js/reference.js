@@ -1,4 +1,6 @@
 var caller = null;
+var save_text = 'Sparen (save)';
+var cancel_text = 'Stornieren (cancel)';
 
 function reference(item, caller_object = null)
 {
@@ -64,11 +66,11 @@ function editReference(event)
         + '<div class="row">'
         + fields
         + '</div><br><div class="row">'
-        + '<div class="col-sm-6 col-md-4">'
-        + '<button type="submit" onclick="updateReference(\''+ref+'\')" class="btn btn-success"><i class="far fa-save" aria-hidden="true"></i> СОХРАНИТЬ</button> '
+        + '<div class="col-6 col-md-4">'
+        + '<button type="submit" onclick="updateReference(\''+ref+'\')" class="btn btn-success"><i class="far fa-save" aria-hidden="true"></i>' + save_text + '</button> '
         + '</div>'
-        + '<div class="col-sm-6 col-md-4">'
-        + '<a class="text-secondary" href="javascript:void(0)" onclick="cancelReference('+id+')"><i class="fas fa-times" aria-hidden="true"></i> ЗАКРЫТЬ</a>'
+        + '<div class="col-6 col-md-4">'
+        + '<a class="text-secondary" href="javascript:void(0)" onclick="cancelReference('+id+')"><i class="fas fa-times" aria-hidden="true"></i>' + cancel_text + '</a>'
         + '</div></div></form>';
     row.append(form);
 }

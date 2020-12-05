@@ -58,13 +58,13 @@ $id = $operation->getOperationId();
             <div class="col-6">
                 <a href="javascript:void(0)"
                    onclick="removeDocument('<?=$this->url('operation.delete',['id'=>$id])?>', '<?=$remove_text1?>', '<?=$remove_text2?>', this)"
-                   class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash"></i> <?=$this->lngButton($remove_text1a, $remove_text2a)?>
+                   class="btn btn-sm btn-danger float-right">
+                    <i class="fas fa-trash"></i> <?=$this->lngButton($remove_text1a, $remove_text2a, true)?>
                 </a>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-sm-4">
                 <label class=" text-sm-left"><small><?=$labels['date']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm datetimepicker"
@@ -73,7 +73,7 @@ $id = $operation->getOperationId();
                        maxlength="50">
 
             </div>
-            <div class="col-md-5">
+            <div class="col-9 col-sm-5">
                 <label class=" text-sm-left"><small><?=$labels['kind']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
                         name="operation[<?=$id?>][kind]"
@@ -98,16 +98,16 @@ $id = $operation->getOperationId();
                 </select>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-3">
                 <a style="margin-top: 2rem; width: inherit"
                    href="javascript:void(0)"
                    onclick="reference('kind', this)"
                    class="btn btn-secondary">
-                    <i class="fas fa-pen"></i> <?=$this->lngLabel('Typen', 'types')?>
+                    <i class="fas fa-pen"></i> <?=$this->lngButton('Typen', 'types', true)?>
                 </a>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-5 offset-md-4">
+            <div class="col-9 col-sm-5 offset-sm-4">
                 <label class=" text-sm-left"><small><?=$labels['surgeon']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
                         name="operation[<?=$id?>][surgeon]"
@@ -133,16 +133,16 @@ $id = $operation->getOperationId();
                 </select>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-3">
                 <a style="margin-top: 2rem; width: inherit"
                    href="javascript:void(0)"
                    onclick="reference('surgeon', this)"
                    class="btn btn-secondary">
-                    <i class="fas fa-pen"></i> Surgeons
+                    <i class="fas fa-pen"></i> <?=$this->lngButton('Surgeons', '', true)?>
                 </a>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-4">
+            <div class="col-sm-4">
                 <label class=" text-sm-left"><small><?=$labels['caseNumber']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm"
@@ -151,7 +151,7 @@ $id = $operation->getOperationId();
                        maxlength="10">
 
             </div>
-            <div class="col-md-5">
+            <div class="col-9 col-sm-5">
                 <label class=" text-sm-left"><small><?=$labels['clinic']?></small></label>
                 <select style="box-sizing: border-box !important;" class="selectpicker"
                        name="operation[<?=$id?>][clinic]"
@@ -176,16 +176,16 @@ $id = $operation->getOperationId();
                     ?>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-3">
                 <a style="margin-top: 2rem; width: inherit"
                    href="javascript:void(0)"
                    onclick="reference('clinic', this)"
                    class="btn btn-secondary">
-                    <i class="fas fa-pen"></i> Clinics
+                    <i class="fas fa-pen"></i> <?=$this->lngButton('Clinics', '', true)?>
                 </a>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <label class=" text-sm-left"><small><?=$labels['patientHeight']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm"
@@ -193,7 +193,7 @@ $id = $operation->getOperationId();
                        value="<?=$operation->getPatientHeight()?>"
                 >
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <label class=" text-sm-left"><small><?=$labels['patientWeight']?></small></label>
                 <input type="text"
                        class="form-control form-control-sm"
