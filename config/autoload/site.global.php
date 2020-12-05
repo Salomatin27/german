@@ -3,7 +3,7 @@
 
 return [
     'site' => [
-        'url'   => 'german.medicine.biz.ua',
+        'url'   => 'http://german.medicine.biz.ua',
         'name' => 'SomeApp',
     ],
 ];
