@@ -7,8 +7,8 @@ if (!$this->items || count($this->items) == 0) {
 foreach ($this->items as $item):
     $address_edit=$this->url('operation-implant.edit', ['id'=>$item->getOperationImplantId()]);
     $manufacturer= $item->getImplant() ? $item->getImplant()->getManufacturer()->getManufacturerName() : '';
-    $implant = $item->getImplant() ? $item->getImplant()->getImplantName() : '';
-    $fixation = $item->getFixation() ? $item->getFixation()->getFixationName() : '';
+    $implant = $item->getImplant() ? $item->getImplant()->getImplantName() : '...';
+    $fixation = $item->getFixation() ? $item->getFixation()->getFixationName() : '...';
 
 ?>
 

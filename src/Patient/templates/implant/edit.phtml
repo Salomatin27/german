@@ -23,10 +23,17 @@ $this->inlineScript()->prependFile('/js/remove-window.js');
 
     <form method="post" action="<?= $this->url('operation-implant.edit', ['id' => $item->getOperationImplantId()]); ?>">
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <button type="submit" class="btn btn-sm btn-secondary">
                     <i class="fas fa-times" aria-hidden="true"></i> <?=$this->lngButton('Schließen', 'close', false, true)?>
                 </button>
+            </div>
+            <div class="col-6">
+                <a href="javascript:void(0)" class="btn btn-sm btn-danger float-right"
+                   onclick="removeDocument('<?=$this->url('operation-implant.delete',['id' => $item->getOperationImplantId()])?>',
+                           '<?=$remove_text1?>', '<?=$remove_text2?>')">
+                    <i class="fas fa-trash"></i> <?=$this->lngButton($remove_text1, $remove_text2, true, true)?>
+                </a>
             </div>
         </div>
         <br>
@@ -155,11 +162,6 @@ $this->inlineScript()->prependFile('/js/remove-window.js');
 
             <hr>
 
-            <a href="javascript:void(0)" class="text-danger"
-               onclick="removeDocument('<?=$this->url('operation-implant.delete',['id' => $item->getOperationImplantId()])?>',
-                       '<?=$remove_text1?>', '<?=$remove_text2?>')">
-                <i class="fas fa-trash"></i> <?=$this->lngLabel($remove_text1, $remove_text2)?>
-            </a>
 
 
         </div>

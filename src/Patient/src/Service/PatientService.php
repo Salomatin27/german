@@ -411,12 +411,13 @@ class PatientService
             if (!$manufacturer) {
                 $manufacturer = $this->createEmptyManufacturer();
             }
-            $implant = $this->getImplantsByManufacturer($manufacturer)[0];
-            $fixation = $this->getFixationsByManufacturer($manufacturer)[0];
+//            $kind = $operation->getKind();
+//            $implant = $this->getImplantsByManufacturerKind($manufacturer, $kind)[0];
+//            $fixation = $this->getFixationsByManufacturerKind($manufacturer, $kind)[0];
             $item = new OperationImplant();
             $item->setOperation($operation);
-            $item->setImplant($implant);
-            $item->setFixation($fixation);
+//            $item->setImplant($implant);
+//            $item->setFixation($fixation);
             $this->entityManager->persist($item);
             $this->entityManager->flush($item);
 //            $hydrator = new DoctrineObject($this->entityManager);
@@ -705,13 +706,13 @@ class PatientService
         return $this->entityManager->getRepository(Manufacturer::class)->findAll();
     }
 
-    public function getImplantsByManufacturerKind(Manufacturer $manufacturer, Kind $kind)
+    public function getImplantsByManufacturerKind(?Manufacturer $manufacturer, Kind $kind)
     {
         return $this->entityManager->getRepository(Implant::class)
             ->findBy(['manufacturer'=>$manufacturer, 'kind' => $kind], ['implantName'=>'asc']);
     }
 
-    public function getFixationsByManufacturerKind(Manufacturer $manufacturer, Kind $kind)
+    public function getFixationsByManufacturerKind(?Manufacturer $manufacturer, Kind $kind)
     {
         return $this->entityManager->getRepository(Fixation::class)
             ->findBy(['manufacturer'=>$manufacturer, 'kind' => $kind], ['fixationName'=>'asc']);
