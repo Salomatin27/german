@@ -73,7 +73,7 @@ class LoginPageHandler implements MiddlewareInterface
             'login_form' => $loginForm,
             'token'      => $token,
             'layout'     => 'layout::empty',
-        ]));
+        ]), 401);
     }
 
 }

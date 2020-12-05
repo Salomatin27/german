@@ -1,6 +1,6 @@
 <?php
 $this->headLink()
-    ->prependStylesheet('https://use.fontawesome.com/releases/v5.13.0/css/all.css')
+//    ->prependStylesheet('https://use.fontawesome.com/releases/v5.13.0/css/all.css')
     ->prependStylesheet('/css/flatly.bootstrap.min.css');
 $this->inlineScript()
     ->prependFile('/js/bootstrap.bundle.min.js')
@@ -32,6 +32,6 @@ $this->inlineScript()
         </main>
     </div>
 
-    <?php echo $this->inlineScript(); ?>
+    <?=$this->inlineScript()?>
 </body>
 </html>
