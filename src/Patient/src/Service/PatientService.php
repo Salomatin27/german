@@ -826,7 +826,7 @@ class PatientService
                 { visibility: visible; }
                 </style>';
         $html .= '<FORM class="dontprint">
-                <INPUT TYPE="button" value="Печать" onClick="window.print()">
+                <INPUT TYPE="button" value="Drucken (print)" onClick="window.print()">
                 <hr>
                 </FORM>';
         $html .= '</html>';
