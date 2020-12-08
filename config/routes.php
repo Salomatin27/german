@@ -138,6 +138,11 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         Patient\Handler\DeleteOperationHandler::class,
         'operation.delete'
     );
+    $app->get(
+        '/patient-print/{id}',
+        \Patient\Handler\PrintPatientHandler::class,
+        'patient.print'
+    );
     //endregion
 
     //region reference

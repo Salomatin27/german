@@ -615,7 +615,6 @@ class PatientService
                 $patient = $hydrator->hydrate($data, $patient);
                 $this->entityManager->flush($patient);
             }
-
         } catch (\Exception $exception) {
             $error = $exception->getMessage();
         }
@@ -716,5 +715,127 @@ class PatientService
     {
         return $this->entityManager->getRepository(Fixation::class)
             ->findBy(['manufacturer'=>$manufacturer, 'kind' => $kind], ['fixationName'=>'asc']);
+    }
+
+    public function printPatient($id)
+    {
+        $patient = $this->getPatient($id);
+
+        // patient-1
+        $file = './data/patient_data.htm';
+        $contents="";
+        if ($handle = fopen($file, 'r')) {
+            $contents = fread($handle, filesize($file));
+            fclose($handle);
+        }
+        $contents = str_replace(
+            '_data_surname',
+            $patient->getSurname(),
+            $contents
+        );
+        $contents = str_replace(
+            '_data_first_name',
+            $patient->getFirstName(),
+            $contents
+        );
+        $contents = str_replace(
+            '_data_birthday',
+            $patient->getBirthday() ? $patient->getBirthday()->format('d-m-Y') : '',
+            $contents
+        );
+        $contents = str_replace(
+            '_data_street',
+            $patient->getStreet(),
+            $contents
+        );
+        $contents = str_replace(
+            '_data_post_code',
+            $patient->getPostCode(),
+            $contents
+        );
+        $contents = str_replace(
+            '_data_residence',
+            $patient->getResidence(),
+            $contents
+        );
+        $contents = str_replace(
+            '_data_phone',
+            $patient->getPhone(),
+            $contents
+        );
+//
+//        //items
+//        $file = './public/doc/_item.htm';
+//        $content2 = "";
+//        if ($handle = fopen($file, 'r')) {
+//            $content2 = fread($handle, filesize($file));
+//            fclose($handle);
+//        }
+//        $items = $this->getItems($patient);
+//        $item_contents = '';
+//        $total = 0;
+//        /** @var Item $item */
+//        foreach ($items as $item) {
+//            $tmp_contents = $content2;
+//            $total += (float)$item->getCostClean();
+//            $tmp_contents = str_replace('ITEM-NAME', $item->getName(), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-QTY', $item->getQty(), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-CLEAN', $item->getClean()->getName(), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-COST', round($item->getCostClean()/$item->getQty(), 2), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-TOTAL', $item->getCostClean(), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-OCOST', $item->getCostObject(), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-WEAR', $item->getWear(), $tmp_contents);
+//            $tmp_contents = str_replace('ITEM-NOTE', $item->getNote(), $tmp_contents);
+//            $item_contents .= $tmp_contents;
+//        }
+//
+//        //bill-2
+//        $file = './public/doc/_bill-2.htm';
+//        $content3 = "";
+//        if ($handle = fopen($file, 'r')) {
+//            $content3 = fread($handle, filesize($file));
+//            fclose($handle);
+//        }
+//        $content3 = str_replace('TOTAL', round($total, 2), $content3);
+//        $content3 = str_replace('DATEIN', $patient->getDate()->format('d-m-Y'), $content3);
+//
+//        //other
+//        $file = './public/doc/second.htm';
+//        $content_other = "";
+//        if ($handle = fopen($file, 'r')) {
+//            $content_other = fread($handle, filesize($file));
+//            fclose($handle);
+//        }
+//
+//
+//        $patient_contents = $contents.$item_contents.$content3;
+
+        $html = '<html moznomarginboxes mozdisallowselectionprint>';
+        // for new page
+//        $html .= '<style type="text/css" media="print">
+//                .dontprint
+//                { display: none; }
+//                @page
+//                { size: auto; margin: 0; }
+//                </style>';
+        // for current page
+        $html .= '<style type="text/css" media="print">
+                body * 
+                { visibility: hidden; }
+                #print-page, #print-page *
+                { visibility: visible; }
+                </style>';
+        $html .= '<FORM class="dontprint">
+                <INPUT TYPE="button" value="Печать" onClick="window.print()">
+                <hr>
+                </FORM>';
+        $html .= '</html>';
+
+        // property for break '.WordSection1 { page-break-after: always; page-break-inside: avoid; }'
+        // property don't break page! '#print-page { position: absolute; left: 0; top: 0; }'
+
+        $html=$html.'<div id="print-page">' . $contents . '</div>';
+
+        return $html;
     }
 }

@@ -17,6 +17,7 @@ return [
                 'logout',
                 'image.view',
                 'patient.patch',
+                'patient.print',
             ],
             'editor' => [
                 'patients',
