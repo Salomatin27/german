@@ -722,7 +722,7 @@ class PatientService
         $patient = $this->getPatient($id);
 
         // patient-1
-        $file = './public/doc/patient_data.htm';
+        $file = '/doc/patient_data.htm';
         $contents="";
         if ($handle = fopen($file, 'r')) {
             $contents = fread($handle, filesize($file));
