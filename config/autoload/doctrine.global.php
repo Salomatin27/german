@@ -18,8 +18,8 @@ return [
                 'params' => [
                     'host'     => 'localhost',
                     'port'     => '3306',
-                    'user'     => 'medicine_german',
-                    'password' => 'socket27_german',
+                    'user'     => '',
+                    'password' => '',
                     'dbname'   => 'medicine_german',
                     'driverOptions' => [
                         \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',

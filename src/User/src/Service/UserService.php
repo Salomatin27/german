@@ -144,32 +144,6 @@ class UserService
         return (object)['error' => $error, 'user' => $user];
     }
 
-//    /**
-//     * This method checks if at least one user presents, and if not, creates
-//     * 'Admin' user with email 'admin@example.com' and password 'Security'.
-//     */
-//    public function createAdminUserIfNotExists()
-//    {
-//        $user = $this->entityManager->getRepository(User::class)->findOneBy([]);
-//        if ($user==null) {
-//            $user = new User();
-//            $user->setEmail('salomatin@icloud.com');
-//            $user->setFullName('Admin');
-//            $bcrypt = new Bcrypt();
-//            $passwordHash = $bcrypt->create('socket27');
-//            $user->setPassword($passwordHash);
-//            $user->setStatus(User::STATUS_ACTIVE);
-//            $admin_role = $this->entityManager->getRepository(Role::class)
-//                ->findOneBy(['name'=>'administrator']);
-//            $user->setRole($admin_role);
-//            //$user->setDateCreated(date('Y-m-d H:i:s'));
-//            $user->setDateCreated(date_create(date('Y-m-d H:i:s')));
-//
-//            $this->entityManager->persist($user);
-//            $this->entityManager->flush();
-//        }
-//    }
-
     /**
      * Checks whether an active user with given email address already exists in the database.
      */

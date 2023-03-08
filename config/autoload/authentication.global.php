@@ -17,8 +17,8 @@ return [
                 'identity' => 'email',
                 'password' => 'password',
             ],
-            'username' => 'medicine_german',
-            'password' => 'socket27_german',
+            'username' => '',
+            'password' => '',
             'sql_get_roles' =>
                 'select role.name from role inner join user as u on role.role_id = u.role_id where u.email=:identity',
             // zend-expressive-authorization >0.5
